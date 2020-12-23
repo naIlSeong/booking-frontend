@@ -5,6 +5,7 @@ import { Link, useHistory } from "react-router-dom";
 import { Button } from "../components/button";
 import { FormError } from "../components/form-error";
 import { createUser, createUserVariables } from "../__generated__/createUser";
+import { Helmet } from "react-helmet-async";
 
 const CREATE_USER = gql`
   mutation createUser($input: CreateUserInput!) {
@@ -65,6 +66,9 @@ export const Signup = () => {
 
   return (
     <div className="background flexBox">
+      <Helmet>
+        <title>Booking - Signup</title>
+      </Helmet>
       <div className="title">Let's get started!</div>
       <form className="grid gap-4 w-5/12" onSubmit={handleSubmit(onSubmint)}>
         <input

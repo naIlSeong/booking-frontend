@@ -6,6 +6,7 @@ import { authToken, LOCAL_STORAGE_TOKEN } from "../apollo";
 import { Button } from "../components/button";
 import { FormError } from "../components/form-error";
 import { login, loginVariables } from "../__generated__/login";
+import { Helmet } from "react-helmet-async";
 
 const LOGIN = gql`
   mutation login($input: LoginInput!) {
@@ -68,6 +69,9 @@ export const Login = () => {
 
   return (
     <div className="background flexBox">
+      <Helmet>
+        <title>Booking - Login</title>
+      </Helmet>
       <div className="title">Welcome back!</div>
       <form className="grid gap-4 w-5/12" onSubmit={handleSubmit(onSubmint)}>
         <input

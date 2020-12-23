@@ -1,16 +1,19 @@
 import React from "react";
-import { authToken } from "../apollo";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { NotFound } from "../pages/404";
+import { Home } from "../pages/home";
 
 export const LoggedInRouter = () => {
-  const onClick = () => {
-    localStorage.clear();
-    window.location.reload();
-    authToken();
-  };
   return (
-    <div>
-      <div>Hola!!!!!</div>
-      <button onClick={onClick}>Log Out</button>
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/" exact>
+          <Home />
+        </Route>
+        <Route>
+          <NotFound />
+        </Route>
+      </Switch>
+    </Router>
   );
 };
