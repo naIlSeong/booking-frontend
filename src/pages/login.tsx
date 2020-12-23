@@ -106,7 +106,7 @@ export const Login = () => {
         New to Booking?
         <Link to="/signup" className="text-coolGray-300  hover:underline">
           {" "}
-          Create an account
+          Sign up
         </Link>
       </h5>
     </div>

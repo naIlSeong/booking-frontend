@@ -1,8 +1,12 @@
 import React from "react";
-import { isLoggedInVar } from "../apollo";
+import { authToken } from "../apollo";
 
 export const LoggedInRouter = () => {
-  const onClick = () => isLoggedInVar(false);
+  const onClick = () => {
+    localStorage.clear();
+    window.location.reload();
+    authToken();
+  };
   return (
     <div>
       <div>Hola!!!!!</div>
