@@ -1,7 +1,11 @@
 import React from "react";
 
 function App() {
-  return <span>Hello</span>;
+  return (
+    <div className=" bg-green-700">
+      <span className=" text-white text-3xl">Hello World</span>
+    </div>
+  );
 }
 
 export default App;
