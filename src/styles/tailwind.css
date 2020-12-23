@@ -25,4 +25,8 @@
   @apply text-red-600 text-lg;
 }
 
+.footerLink {
+  @apply mb-4 font-light hover:underline hover:text-coolGray-50 text-coolGray-300;
+}
+
 @tailwind utilities;
