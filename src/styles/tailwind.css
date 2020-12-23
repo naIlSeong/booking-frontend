@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+
+.title {
+  @apply text-white text-5xl w-5/12 pb-8;
+}
+
+.input {
+  @apply py-2 px-4 border font-light text-lg border-gray-200 focus:outline-none focus:border-gray-600 transition-colors duration-500;
+}
+
+.btn {
+  @apply bg-indigo-600 hover:bg-indigo-800 transition-colors duration-500 text-white font-semibold py-3;
+}
+
+.background {
+  @apply h-screen bg-coolGray-900;
+}
+
+.flexBox {
+  @apply flex flex-col justify-center items-center;
+}
+
+.errorMessage {
+  @apply text-red-600 text-lg;
+}
+
+@tailwind utilities;

@@ -11,11 +11,13 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
+    "apollo": "^2.32.0",
     "autoprefixer": "^10.1.0",
     "graphql": "^15.4.0",
     "postcss": "^8.2.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-hook-form": "^6.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "tailwindcss": "^2.0.2",
@@ -23,8 +25,9 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "tailwind:build": "tailwind build ./src/styles/index.css -o ./src/styles/styles.css",
-    "start": "npm run tailwind:build & react-scripts start",
+    "tailwind:build": "tailwind build ./src/styles/tailwind.css -o ./src/styles/styles.css",
+    "start": "npm run apollo:codegen & npm run tailwind:build & react-scripts start",
+    "apollo:codegen": "rm -rf src/__generated__ && apollo client:codegen src/__generated__ --target=typescript --outputFlat",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -46,5 +49,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-router-dom": "^5.1.6"
   }
 }
