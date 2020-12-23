@@ -2,18 +2,23 @@
 
 ## Todo
 
+### Components
+
+- [x] Header
+- [x] Footer
+- [x] 404
+
 ### Logged out pages
 
 - [x] Login
 - [x] Signup
-- [ ] Footer
-- [ ] 404
 
 ### Logged in pages
 
-- [ ] Header
-- [ ] Create Booking
-- [ ] My profile -> My bookings
-- [ ] Booking detail -> Edit / Delete booking
-- [ ] Team profile -> Team's booking, Members
-- [ ] Place detail -> Place's booking
+- [ ] "/" &rarr; My Bookings (getMyBookings)
+  - Not Done!! &rarr; Fix backend first
+- [ ] "/my-profile" &rarr; Edit Profile (editUser)
+- [ ] "/create-booking" &rarr; Create Booking
+- [ ] "/booking/:id" &rarr; Edit / Delete booking
+- [ ] "/team/:id" &rarr; Team's booking, Members
+- [ ] "/place/:id" &rarr; Place's booking
