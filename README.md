@@ -15,8 +15,7 @@
 
 ### Logged in pages
 
-- [ ] "/" &rarr; My Bookings (getMyBookings)
-  - Not Done!! &rarr; Fix backend first
+- [x] "/" &rarr; My Bookings (getMyBookings)
 - [ ] "/my-profile" &rarr; Edit Profile (editUser)
 - [ ] "/create-booking" &rarr; Create Booking
 - [ ] "/booking/:id" &rarr; Edit / Delete booking

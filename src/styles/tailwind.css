@@ -30,7 +30,19 @@
 }
 
 .bookingList {
-  @apply w-9/12 md:w-8/12  lg:w-7/12 xl:w-5/12 flex flex-col justify-center px-5;
+  @apply w-9/12 md:w-8/12  lg:w-7/12 xl:w-5/12 bg-coolGray-800 py-5 rounded-md mb-6 flex flex-col justify-center px-5;
+}
+
+.bookingArgs {
+  @apply w-full bg-coolGray-900 mb-4 p-3 rounded-sm;
+}
+
+.bookingTime {
+  @apply text-coolGray-200 font-medium text-lg py-2 hover:underline cursor-pointer;
+}
+
+.loading {
+  @apply text-white text-2xl font-semibold tracking-wider mb-48;
 }
 
 @tailwind utilities;
