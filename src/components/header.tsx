@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export const Header: React.FC = () => {
   return (
-    <header className="py-5 bg-coolGray-800">
+    <header className="py-5 bg-coolGray-800 fixed w-screen top-0 left-0">
       <div className="w-full px-9 max-w-screen-2xl mx-auto flex justify-between">
         <Link to="/">
           <span className="title text-3xl font-medium tracking-wider pb-0">

@@ -18,7 +18,7 @@
 }
 
 .flexBox {
-  @apply flex flex-col justify-center items-center;
+  @apply flex flex-col justify-center items-center h-full mt-16 py-16;
 }
 
 .errorMessage {
@@ -38,11 +38,11 @@
 }
 
 .bookingTime {
-  @apply text-coolGray-200 font-medium text-lg py-2 hover:underline cursor-pointer;
+  @apply text-coolGray-200 font-medium text-lg py-2 flex justify-between;
 }
 
 .loading {
-  @apply text-white text-2xl font-semibold tracking-wider mb-48;
+  @apply text-white text-2xl font-semibold tracking-wider h-screen pt-32;
 }
 
 @tailwind utilities;

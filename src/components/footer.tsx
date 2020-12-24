@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="py-7 bg-coolGray-900">
+    <footer className="py-7 bg-coolGray-900 relative bottom-0 left-0">
       <div className="w-full px-9 max-w-screen-2xl mx-auto flex flex-col items-center ">
         <span className="text-coolGray-300 mb-2">Developer</span>
         <span className="text-white mb-9 font-semibold text-lg">나일성</span>

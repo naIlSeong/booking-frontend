@@ -104,23 +104,21 @@ export const Home = () => {
 
   const renderer = ({ hours, minutes, seconds, completed }: IRenderer) => {
     if (completed) {
-      return "Finished!";
+      return <span className="text-red-500 font-bold">Finished!</span>;
     } else {
       if (hours === 0 && minutes > 10) {
         return (
           <>
-            <span className="text-red-600 font-light">
+            <span className="text-coolGray-300 font-normal">
               {hours}h {minutes < 10 ? `0${minutes}` : minutes}m
               {seconds < 10 ? `0${seconds}` : seconds}s
             </span>{" "}
-            <span className="text-red-600 font-bold cursor-pointer hover:underline">
-              Can extend time!
-            </span>
+            <span className="text-red-500 font-bold">Can extend!</span>
           </>
         );
       }
       return (
-        <span className="text-red-600 font-light">
+        <span className="text-coolGray-300 font-normal">
           {hours}h {minutes < 10 ? `0${minutes}` : minutes}m
           {seconds < 10 ? `0${seconds}` : seconds}s
         </span>
@@ -133,9 +131,9 @@ export const Home = () => {
       {inProgressLoading && comingUpLoading ? (
         <span className="loading">Loading...</span>
       ) : (
-        <>
-          <div className="bookingList -mt-10">
-            <span className="title w-auto">In progress</span>
+        <div className="flex flex-col justify-center items-center w-full min-h-full">
+          <div className="bookingList">
+            <span className="title w-max">In progress</span>
             {inProgress?.getInProgressBooking.bookings?.length !== 0 ? (
               inProgress?.getInProgressBooking.bookings?.map((booking) => (
                 <div className="bookingArgs">
@@ -143,7 +141,12 @@ export const Home = () => {
                     className="bookingTime"
                     onClick={() => history.push(`/booking/${booking.id}`)}
                   >
-                    {editTime(booking.startAt)} ~ {editTime(booking.endAt)}
+                    <span className="hover:underline cursor-pointer">
+                      {editTime(booking.startAt)} ~ {editTime(booking.endAt)}
+                    </span>
+                    <span className="text-red-500 font-bold cursor-pointer hover:underline">
+                      Extend!
+                    </span>
                   </div>
                   <div className="mb-3 -mt-1">
                     <FontAwesomeIcon
@@ -200,7 +203,9 @@ export const Home = () => {
                     className="bookingTime"
                     onClick={() => history.push(`/booking/${booking.id}`)}
                   >
-                    {editTime(booking.startAt)} ~ {editTime(booking.endAt)}
+                    <span className="hover:underline cursor-pointer">
+                      {editTime(booking.startAt)} ~ {editTime(booking.endAt)}
+                    </span>
                   </div>
                   <div className="text-coolGray-400 py-2">
                     <FontAwesomeIcon
@@ -241,7 +246,7 @@ export const Home = () => {
               </div>
             )}
           </div>
-        </>
+        </div>
       )}
     </div>
   );
