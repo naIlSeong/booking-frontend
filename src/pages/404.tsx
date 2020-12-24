@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export const NotFound = () => {
   return (
-    <div className="background flexBox">
+    <div className="background flexBox h-screen">
       <h1 className="text-9xl text-coolGray-200 font-bold tracking-wide">
         404
       </h1>

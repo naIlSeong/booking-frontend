@@ -10,6 +10,7 @@ import {
   extendInUse,
   extendInUseVariables,
 } from "../__generated__/extendInUse";
+import { FormError } from "../components/form-error";
 
 const GET_IN_PROGRESS = gql`
   query getInProgressBooking {
@@ -30,6 +31,7 @@ const GET_IN_PROGRESS = gql`
         endAt
         isFinished
         inUse
+        canExtend
       }
     }
   }
@@ -77,10 +79,21 @@ export const Home = () => {
     loading: comingUpLoading,
   } = useQuery<getComingUpBooking>(GET_COMING_UP);
 
+  const onCompleted = (data: extendInUse) => {
+    const {
+      extendInUse: { ok, error },
+    } = data;
+    if (ok) {
+      window.location.reload(false);
+    }
+  };
+
   const [
     extendInUseMutation,
     { data: extendInUseOutput, loading },
-  ] = useMutation<extendInUse, extendInUseVariables>(EXTEND_IN_USE);
+  ] = useMutation<extendInUse, extendInUseVariables>(EXTEND_IN_USE, {
+    onCompleted,
+  });
 
   const history = useHistory();
 
@@ -106,7 +119,7 @@ export const Home = () => {
     if (completed) {
       return <span className="text-red-500 font-bold">Finished!</span>;
     } else {
-      if (hours === 0 && minutes > 10) {
+      if (hours === 0 && minutes < 10) {
         return (
           <>
             <span className="text-coolGray-300 font-normal">
@@ -126,6 +139,20 @@ export const Home = () => {
     }
   };
 
+  const onClickExtend = (bookingId: number) => {
+    if (!loading) {
+      extendInUseMutation({
+        variables: {
+          input: {
+            bookingId,
+          },
+        },
+      });
+    }
+  };
+
+  setInterval(() => window.location.reload(false), 300000);
+
   return (
     <div className="background flexBox">
       {inProgressLoading && comingUpLoading ? (
@@ -134,21 +161,33 @@ export const Home = () => {
         <div className="flex flex-col justify-center items-center w-full min-h-full">
           <div className="bookingList">
             <span className="title w-max">In progress</span>
+            {extendInUseOutput?.extendInUse.error && (
+              <div className="pb-5 flex justify-center">
+                <FormError errorMessage={extendInUseOutput.extendInUse.error} />
+              </div>
+            )}
             {inProgress?.getInProgressBooking.bookings?.length !== 0 ? (
               inProgress?.getInProgressBooking.bookings?.map((booking) => (
                 <div className="bookingArgs">
-                  <div
-                    className="bookingTime"
-                    onClick={() => history.push(`/booking/${booking.id}`)}
-                  >
-                    <span className="hover:underline cursor-pointer">
+                  <div className="bookingTime">
+                    <span
+                      className="hover:underline cursor-pointer"
+                      onClick={() => history.push(`/booking/${booking.id}`)}
+                    >
                       {editTime(booking.startAt)} ~ {editTime(booking.endAt)}
                     </span>
-                    <span className="text-red-500 font-bold cursor-pointer hover:underline">
-                      Extend!
-                    </span>
+                    {booking.canExtend === true ? (
+                      <span
+                        className="text-red-600 font-bold cursor-pointer hover:underline"
+                        onClick={() => onClickExtend(booking.id)}
+                      >
+                        Extend!
+                      </span>
+                    ) : (
+                      <></>
+                    )}
                   </div>
-                  <div className="mb-3 -mt-1">
+                  <div className="mb-4">
                     <FontAwesomeIcon
                       icon={faClock}
                       className="text-coolGray-200"
