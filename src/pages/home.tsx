@@ -11,6 +11,7 @@ import {
   extendInUseVariables,
 } from "../__generated__/extendInUse";
 import { FormError } from "../components/form-error";
+import { Helmet } from "react-helmet-async";
 
 const GET_IN_PROGRESS = gql`
   query getInProgressBooking {
@@ -81,7 +82,7 @@ export const Home = () => {
 
   const onCompleted = (data: extendInUse) => {
     const {
-      extendInUse: { ok, error },
+      extendInUse: { ok },
     } = data;
     if (ok) {
       window.location.reload(false);
@@ -101,7 +102,7 @@ export const Home = () => {
     const [rawYear, month, ect] = rawDate.split("-");
     const year = rawYear.slice(0, 2);
     const day = ect.slice(0, 2);
-    const [d, minute, _] = ect.split(":");
+    const [d, minute] = ect.split(":");
     const h = d.slice(3, 5);
     const hour = (parseInt(h) + 9).toString();
 
@@ -132,7 +133,7 @@ export const Home = () => {
       }
       return (
         <span className="text-coolGray-300 font-normal">
-          {hours}h {minutes < 10 ? `0${minutes}` : minutes}m
+          {hours}h {minutes < 10 ? `0${minutes}` : minutes}m{" "}
           {seconds < 10 ? `0${seconds}` : seconds}s
         </span>
       );
@@ -155,6 +156,9 @@ export const Home = () => {
 
   return (
     <div className="background flexBox">
+      <Helmet>
+        <title>Booking</title>
+      </Helmet>
       {inProgressLoading && comingUpLoading ? (
         <span className="loading">Loading...</span>
       ) : (

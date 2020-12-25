@@ -1,9 +1,13 @@
 import React from "react";
+import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 
 export const NotFound = () => {
   return (
     <div className="background flexBox h-screen">
+      <Helmet>
+        <title>Booking - Not Found</title>
+      </Helmet>
       <h1 className="text-9xl text-coolGray-200 font-bold tracking-wide">
         404
       </h1>
