@@ -1,20 +1,20 @@
 import React from "react";
 import { gql, useMutation } from "@apollo/client";
-import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
-import { OtherButton } from "../components/button";
 import {
-  createInUse,
-  createInUseVariables,
-} from "../__generated__/createInUse";
+  createBooking,
+  createBookingVariables,
+} from "../__generated__/createBooking";
+import { Helmet } from "react-helmet-async";
+import { OtherButton } from "../components/button";
 import { useHistory } from "react-router-dom";
-import { FormError } from "../components/form-error";
 import { useAvailablePlace } from "../hooks/useAvailablePlace";
 import { useLocation } from "../hooks/useLocation";
+import { FormError } from "../components/form-error";
 
-const CREAT_IN_USE = gql`
-  mutation createInUse($input: CreateInUseInput!) {
-    createInUse(input: $input) {
+const CREATE_BOOKING = gql`
+  mutation createBooking($input: CreateBookingInput!) {
+    createBooking(input: $input) {
       ok
       error
     }
@@ -22,14 +22,21 @@ const CREAT_IN_USE = gql`
 `;
 
 interface IForm {
-  placeId: number;
   withTeam: boolean | string;
   location: string;
   place: string;
+  startAt: string;
+  endAt: string;
 }
 
-export const CreateInUse = () => {
-  const { register, getValues, handleSubmit, formState } = useForm<IForm>({
+export const CreateBooking = () => {
+  const {
+    register,
+    getValues,
+    handleSubmit,
+    formState,
+    errors,
+  } = useForm<IForm>({
     mode: "onChange",
   });
 
@@ -41,9 +48,9 @@ export const CreateInUse = () => {
   const { data: getLocationOutput, loading } = useLocation();
 
   const history = useHistory();
-  const onCompleted = (data: createInUse) => {
+  const onCompleted = (data: createBooking) => {
     const {
-      createInUse: { ok },
+      createBooking: { ok },
     } = data;
     if (ok) {
       history.push("/");
@@ -52,49 +59,83 @@ export const CreateInUse = () => {
   };
 
   const [
-    createInUseMutation,
-    { data: createInUseOutput, loading: createInUseLoading },
-  ] = useMutation<createInUse, createInUseVariables>(CREAT_IN_USE, {
+    createBookingMutation,
+    { data: createBookingOutput, loading: createBookingLoading },
+  ] = useMutation<createBooking, createBookingVariables>(CREATE_BOOKING, {
     onCompleted,
   });
 
   const onSubmit = () => {
-    if (!createInUseLoading) {
-      const { place, withTeam } = getValues();
-      if (withTeam === "withTeam") {
-        createInUseMutation({
-          variables: {
-            input: {
-              placeId: +place,
-              withTeam: true,
-            },
+    const { place, withTeam, startAt, endAt } = getValues();
+    if (withTeam === "withTeam") {
+      createBookingMutation({
+        variables: {
+          input: {
+            placeId: +place,
+            withTeam: true,
+            startAt,
+            endAt,
           },
-        });
-      }
-      if (!withTeam) {
-        createInUseMutation({
-          variables: {
-            input: {
-              placeId: +place,
-              withTeam: false,
-            },
+        },
+      });
+    }
+    if (!withTeam) {
+      createBookingMutation({
+        variables: {
+          input: {
+            placeId: +place,
+            withTeam: false,
+            startAt,
+            endAt,
           },
-        });
-      }
+        },
+      });
     }
   };
 
   return (
     <div className="background flexBox h-screen">
       <Helmet>
-        <title>Booking - Create In Use</title>
+        <title>Booking - Create Booking</title>
       </Helmet>
       {loading ? (
         <span className="loading">Loading...</span>
       ) : (
         <div className="flex flex-col justify-center items-center w-full min-h-full">
           <div className="bookingList">
-            <span className="title w-max">Create In Use</span>
+            <span className="title w-max">Create Booking</span>
+
+            {/* Time */}
+            <form className="">
+              <div className="my-4">
+                <label htmlFor="place-select" className="bookingTime text-2xl">
+                  Start Time
+                </label>
+                <input
+                  ref={register({
+                    required: true,
+                  })}
+                  className="w-full p-2"
+                  type="datetime-local"
+                  name="startAt"
+                />
+              </div>
+              <div className="my-4">
+                <label htmlFor="place-select" className="bookingTime text-2xl">
+                  End Time
+                </label>
+                <input
+                  ref={register({
+                    required: true,
+                  })}
+                  className="w-full p-2"
+                  type="datetime-local"
+                  name="endAt"
+                />
+              </div>
+            </form>
+
+            {/* Location */}
             <form>
               <div>
                 <label
@@ -137,6 +178,7 @@ export const CreateInUse = () => {
               </div>
             )}
 
+            {/* Place */}
             <form className="my-4" onSubmit={handleSubmit(onSubmit)}>
               <label htmlFor="place-select" className="bookingTime text-2xl">
                 Place
@@ -180,9 +222,12 @@ export const CreateInUse = () => {
                 </div>
               )}
             </form>
-            {createInUseOutput?.createInUse.error && (
-              <FormError errorMessage={createInUseOutput.createInUse.error} />
+            {createBookingOutput?.createBooking.error && (
+              <FormError
+                errorMessage={createBookingOutput.createBooking.error}
+              />
             )}
+
             <div className="flex w-full justify-end items-center text-xl text-coolGray-200 font-medium">
               <input
                 ref={register()}
@@ -193,10 +238,16 @@ export const CreateInUse = () => {
               />
               <label>With Team?</label>
             </div>
-            {createInUseLoading && (
+            {createBookingLoading && (
               <div className="flex w-full justify-center items-center text-xl text-coolGray-200 font-medium py-5">
                 Loading...
               </div>
+            )}
+            {errors.startAt?.type === "required" && (
+              <FormError errorMessage="Start time is required" />
+            )}
+            {errors.endAt?.type === "required" && (
+              <FormError errorMessage="End time is required" />
             )}
           </div>
         </div>
