@@ -11,10 +11,10 @@ export const LoggedInRouter = () => {
     <Router>
       <Header />
       <Switch>
-        <Route key="1" path="/" exact>
+        <Route key={1} path="/" exact>
           <Home />
         </Route>
-        <Route key="2" path="/create-in-use" exact>
+        <Route key={2} path="/create-in-use" exact>
           <CreateInUse />
         </Route>
         <Route>

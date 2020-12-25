@@ -18,7 +18,7 @@
 - [x] "/" &rarr; My Bookings (getMyBookings)
 - [x] Extend In Use
 - [x] "/create-in-use" Create In Use
-- [ ] Improve Heaer!!!
+- [x] Improve Heaer!!!
 - [ ] "/my-profile" &rarr; Edit Profile (editUser)
 - [ ] "/create-booking" &rarr; Create Booking
 - [ ] "/booking/:id" &rarr; Edit / Delete booking

@@ -87,6 +87,7 @@ export const CreateInUse = () => {
     } = data;
     if (ok) {
       history.push("/");
+      window.location.reload(false);
     }
   };
 
@@ -152,11 +153,13 @@ export const CreateInUse = () => {
                 >
                   <option value="">=======Select Location=======</option>
                   {getLocationOutput?.getLocation.locations &&
-                    getLocationOutput.getLocation.locations.map((location) => (
-                      <option value={location.id}>
-                        {location.locationName}
-                      </option>
-                    ))}
+                    getLocationOutput.getLocation.locations.map(
+                      (location, index) => (
+                        <option value={location.id} key={index}>
+                          {location.locationName}
+                        </option>
+                      )
+                    )}
                 </select>
                 <OtherButton
                   canClick={formState.isDirty}
@@ -201,8 +204,10 @@ export const CreateInUse = () => {
 
                       {getAvailablePlaceOutput?.getAvailablePlace.places &&
                         getAvailablePlaceOutput.getAvailablePlace.places?.map(
-                          (place) => (
-                            <option value={place.id}>{place.placeName}</option>
+                          (place, index) => (
+                            <option value={place.id} key={index}>
+                              {place.placeName}
+                            </option>
                           )
                         )}
                     </select>
