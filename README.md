@@ -17,7 +17,7 @@
 
 - [x] "/" &rarr; My Bookings (getMyBookings)
   - [x] Extend In Use
-  - [ ] Finish In Use
+  - [x] Finish In Use
   - [x] Display Team
 - [x] "/create-in-use" Create In Use
 - [x] Improve Heaer!!!
