@@ -8,6 +8,7 @@ import { CreateBooking } from "../pages/create-booking";
 import { Home } from "../pages/home";
 import { MyProfile } from "../pages/my-profile";
 import { EditProfile } from "../pages/edit-profile";
+import { BookingDetail } from "../pages/booking-detail";
 
 export const LoggedInRouter = () => {
   return (
@@ -28,6 +29,9 @@ export const LoggedInRouter = () => {
         </Route>
         <Route key={5} path="/edit-profile" exact>
           <EditProfile />
+        </Route>
+        <Route key={6} path="/booking/:id">
+          <BookingDetail />
         </Route>
         <Route>
           <NotFound />

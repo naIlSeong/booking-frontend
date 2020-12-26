@@ -28,10 +28,10 @@
   - [x] Delete User
 
 - Booking
-- [ ] "/booking/:id" &rarr; Booking Detail
+- [x] "/booking/:id" &rarr; Booking Detail
 
   - [ ] Edit Booking
-  - [ ] Delete Booking
+  - [x] Delete Booking
 
 - Team
 - [ ] "/team/new" &rarr; Create Team
