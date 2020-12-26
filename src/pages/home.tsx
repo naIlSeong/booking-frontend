@@ -33,6 +33,9 @@ const GET_IN_PROGRESS = gql`
         isFinished
         inUse
         canExtend
+        team {
+          id
+        }
       }
     }
   }
@@ -56,6 +59,9 @@ const GET_COMING_UP = gql`
         endAt
         isFinished
         inUse
+        team {
+          id
+        }
       }
     }
   }
@@ -180,6 +186,14 @@ export const Home = () => {
                     >
                       {editTime(booking.startAt)} ~ {editTime(booking.endAt)}
                     </span>
+                    {booking.team?.id && (
+                      <span
+                        className="px-2 ml-3 rounded-lg bg-coolGray-700 cursor-pointer"
+                        onClick={() => history.push("/my-team")}
+                      >
+                        With Team
+                      </span>
+                    )}
                     {booking.canExtend === true ? (
                       <span
                         className="text-red-600 font-bold cursor-pointer hover:underline"
@@ -242,13 +256,21 @@ export const Home = () => {
             {comingUp?.getComingUpBooking.bookings?.length !== 0 ? (
               comingUp?.getComingUpBooking.bookings?.map((booking) => (
                 <div className="bookingArgs">
-                  <div
-                    className="bookingTime"
-                    onClick={() => history.push(`/booking/${booking.id}`)}
-                  >
-                    <span className="hover:underline cursor-pointer">
+                  <div className="bookingTime">
+                    <span
+                      className="hover:underline cursor-pointer"
+                      onClick={() => history.push(`/booking/${booking.id}`)}
+                    >
                       {editTime(booking.startAt)} ~ {editTime(booking.endAt)}
                     </span>
+                    {booking.team?.id && (
+                      <span
+                        className="px-2 ml-3 rounded-lg bg-coolGray-700 cursor-pointer"
+                        onClick={() => history.push("/my-team")}
+                      >
+                        With Team
+                      </span>
+                    )}
                   </div>
                   <div className="text-coolGray-400 py-2">
                     <FontAwesomeIcon

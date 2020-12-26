@@ -38,7 +38,7 @@
 }
 
 .bookingTime {
-  @apply text-coolGray-200 font-medium text-lg py-2 flex justify-between;
+  @apply text-coolGray-200 font-medium text-lg py-2 flex;
 }
 
 .loading {

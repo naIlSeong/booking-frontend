@@ -121,6 +121,14 @@ export const MyProfile = () => {
                       >
                         {editTime(booking.startAt)} ~ {editTime(booking.endAt)}
                       </span>
+                      {booking.team?.id && (
+                        <span
+                          className="px-2 ml-3 rounded-lg bg-coolGray-700 cursor-pointer"
+                          onClick={() => history.push("/my-team")}
+                        >
+                          With Team
+                        </span>
+                      )}
                     </div>
                     <div className="text-coolGray-400 pt-6 pb-2">
                       <FontAwesomeIcon
