@@ -8,6 +8,10 @@ const ME = gql`
       username
       role
       studentEmail
+      team {
+        id
+        teamName
+      }
     }
   }
 `;

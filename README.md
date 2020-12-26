@@ -20,7 +20,7 @@
 - [x] "/create-in-use" Create In Use
 - [x] Improve Heaer!!!
 - [x] "/create-booking" &rarr; Create Booking
-- [ ] "/my-profile" &rarr; Edit Profile (editUser)
+- [x] "/my-profile" &rarr; Edit Profile (editUser)
 - [ ] "/booking/:id" &rarr; Edit / Delete booking
 - [ ] "/team/:id" &rarr; Team's booking, Members
 - [ ] "/place/:id" &rarr; Place's booking

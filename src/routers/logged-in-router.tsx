@@ -6,6 +6,7 @@ import { NotFound } from "../pages/404";
 import { CreateInUse } from "../pages/create-in-use";
 import { CreateBooking } from "../pages/create-booking";
 import { Home } from "../pages/home";
+import { MyProfile } from "../pages/my-profile";
 
 export const LoggedInRouter = () => {
   return (
@@ -20,6 +21,9 @@ export const LoggedInRouter = () => {
         </Route>
         <Route key={3} path="/create-booking" exact>
           <CreateBooking />
+        </Route>
+        <Route key={4} path="/my-profile" exact>
+          <MyProfile />
         </Route>
         <Route>
           <NotFound />
