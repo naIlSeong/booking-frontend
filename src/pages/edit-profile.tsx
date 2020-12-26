@@ -3,15 +3,25 @@ import React from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
+import { authToken, LOCAL_STORAGE_TOKEN } from "../apollo";
 import { Button } from "../components/button";
 import { FormError } from "../components/form-error";
 import { useMe } from "../hooks/useMe";
+import { deleteUser } from "../__generated__/deleteUser";
 import { editUser, editUserVariables } from "../__generated__/editUser";
 
-// ToDo : editUser Mutation & onSubmit & onCompleted
 const EDIT_USER = gql`
   mutation editUser($input: EditUserInput!) {
     editUser(input: $input) {
+      ok
+      error
+    }
+  }
+`;
+
+const DELETE_USER = gql`
+  mutation deleteUser {
+    deleteUser {
       ok
       error
     }
@@ -39,12 +49,22 @@ export const EditProfile = () => {
 
   const onCompleted = (data: editUser) => {
     const {
-      editUser: { ok, error },
+      editUser: { ok },
     } = data;
     if (ok) {
-      // history.push("/my-profile");
-      console.log(ok);
-      console.log(error);
+      history.push("/my-profile");
+    }
+  };
+
+  const deleteOnCompleted = (data: deleteUser) => {
+    const {
+      deleteUser: { ok },
+    } = data;
+    if (ok) {
+      localStorage.removeItem(LOCAL_STORAGE_TOKEN);
+      authToken(null);
+      history.push("/logout");
+      window.location.reload(false);
     }
   };
 
@@ -52,6 +72,11 @@ export const EditProfile = () => {
     editUserMutation,
     { data: editUserOutput, loading: editUserLoading },
   ] = useMutation<editUser, editUserVariables>(EDIT_USER, { onCompleted });
+
+  const [
+    deleteUserMutation,
+    { data: deleteUserOutput, loading: deleteUserLoading },
+  ] = useMutation<deleteUser>(DELETE_USER, { onCompleted: deleteOnCompleted });
 
   const onSubmit = () => {
     if (!editUserLoading) {
@@ -65,6 +90,12 @@ export const EditProfile = () => {
           },
         },
       });
+    }
+  };
+
+  const onClick = () => {
+    if (!deleteUserLoading) {
+      deleteUserMutation({});
     }
   };
 
@@ -125,6 +156,16 @@ export const EditProfile = () => {
         )}
         {editUserOutput?.editUser.error && (
           <FormError errorMessage={editUserOutput.editUser.error} />
+        )}
+        <button
+          className="text-white font-semibold py-3 mt-12 focus:outline-none bg-red-700 hover:bg-red-900 transition-colors duration-500"
+          onClick={onClick}
+          type="button"
+        >
+          {deleteUserLoading ? "Loading..." : "Delete Account"}
+        </button>
+        {deleteUserOutput?.deleteUser.error && (
+          <FormError errorMessage={deleteUserOutput.deleteUser.error} />
         )}
       </form>
     </div>

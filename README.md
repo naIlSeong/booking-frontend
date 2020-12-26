@@ -18,13 +18,14 @@
 - [x] "/" &rarr; My Bookings (getMyBookings)
   - [x] Extend In Use
   - [ ] Finish In Use
+  - [ ] Display Team
 - [x] "/create-in-use" Create In Use
 - [x] Improve Heaer!!!
 - [x] "/create-booking" &rarr; Create Booking
 - [x] "/my-profile" &rarr; Finished Booking & My Info
 - [x] "/edit-profile" &rarr; Edit Profile (Update username & password & studentId)
 
-  - [ ] Delete User
+  - [x] Delete User
 
 - Booking
 - [ ] "/booking/:id" &rarr; Booking Detail
