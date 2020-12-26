@@ -16,12 +16,36 @@
 ### Logged in pages
 
 - [x] "/" &rarr; My Bookings (getMyBookings)
-- [x] Extend In Use
+  - [x] Extend In Use
+  - [ ] Finish In Use
 - [x] "/create-in-use" Create In Use
 - [x] Improve Heaer!!!
 - [x] "/create-booking" &rarr; Create Booking
 - [x] "/my-profile" &rarr; Finished Booking & My Info
 - [x] "/edit-profile" &rarr; Edit Profile (Update username & password & studentId)
-- [ ] "/booking/:id" &rarr; Edit / Delete booking
-- [ ] "/team/:id" &rarr; Team's booking, Members
-- [ ] "/place/:id" &rarr; Place's booking
+
+  - [ ] Delete User
+
+- Booking
+- [ ] "/booking/:id" &rarr; Booking Detail
+
+  - [ ] Edit Booking
+  - [ ] Delete Booking
+
+- Team
+- [ ] "/team/new" &rarr; Create Team
+- [ ] "/team/all" &rarr; Get All Team
+
+  - [ ] Search Team by team name
+
+- [ ] "/team/:id" &rarr; Team Detail
+
+  - [ ] "/my-team"
+    - [ ] Register Member (Search user by username)
+    - [ ] Edit Team
+    - [ ] Delete Team
+
+- Place
+- [ ] "/place/all" &rarr; Get All Available Place
+  - [ ] Search Place by place name
+- [ ] "/place/:id" &rarr; Place's booking (InUse & Coming Up Next)
