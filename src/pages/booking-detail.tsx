@@ -1,11 +1,7 @@
 import React from "react";
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 import { Helmet } from "react-helmet-async";
 import { useHistory, useParams } from "react-router-dom";
-import {
-  bookingDetail,
-  bookingDetailVariables,
-} from "../__generated__/bookingDetail";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHourglassEnd,
@@ -22,39 +18,7 @@ import {
 import { FormError } from "../components/form-error";
 import { NotFound } from "./404";
 import { useMe } from "../hooks/useMe";
-
-const BOOKING_DETAIL = gql`
-  query bookingDetail($input: BookingDetailInput!) {
-    bookingDetail(input: $input) {
-      ok
-      error
-      creator {
-        id
-        username
-        role
-      }
-      booking {
-        id
-        place {
-          id
-          placeName
-          placeLocation {
-            id
-            locationName
-          }
-        }
-        team {
-          id
-          teamName
-        }
-        startAt
-        endAt
-        inUse
-        isFinished
-      }
-    }
-  }
-`;
+import { useBooking } from "../hooks/useBooking";
 
 const DELETE_BOOKING = gql`
   mutation deleteBooking($input: DeleteBookingInput!) {
@@ -84,16 +48,8 @@ export const BookingDetail = () => {
   const history = useHistory();
   const { id: bookingId } = useParams<IParams>();
   const { data: myData, loading: myLoading } = useMe();
-  const { data, loading } = useQuery<bookingDetail, bookingDetailVariables>(
-    BOOKING_DETAIL,
-    {
-      variables: {
-        input: {
-          bookingId: +bookingId,
-        },
-      },
-    }
-  );
+  const { data, loading } = useBooking(bookingId);
+
   const [
     deleteBookingMutation,
     { data: deleteBookingOutput, loading: deleteBookingLoading },

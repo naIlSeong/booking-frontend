@@ -30,7 +30,7 @@
 - Booking
 - [x] "/booking/:id" &rarr; Booking Detail
 
-  - [ ] Edit Booking
+  - [x] Edit Booking
   - [x] Delete Booking
 
 - Team

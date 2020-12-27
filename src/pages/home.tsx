@@ -156,11 +156,11 @@ export const Home = () => {
       if (hours === 0 && minutes < 10) {
         return (
           <>
-            <span className="text-coolGray-300 font-normal">
+            <span className="text-coolGray-300 font-normal mx-1">
               {hours}h {minutes < 10 ? `0${minutes}` : minutes}m
               {seconds < 10 ? `0${seconds}` : seconds}s
             </span>{" "}
-            <span className="text-red-500 font-bold">Can extend!</span>
+            <span className="text-red-500 font-bold px-2">Can extend!</span>
           </>
         );
       }
@@ -239,7 +239,7 @@ export const Home = () => {
                       errorMessage={finishInUseOutput.finishInUse.error}
                     />
                   )}
-                  <div className="mb-4">
+                  <div className="mb-4 w-auto flex items-center">
                     <FontAwesomeIcon
                       icon={faClock}
                       className="text-coolGray-200"
@@ -247,7 +247,7 @@ export const Home = () => {
                     <Countdown date={booking.endAt} renderer={renderer} />
                     {booking.canExtend === true ? (
                       <span
-                        className="text-red-600 font-bold cursor-pointer hover:underline"
+                        className="text-red-600 font-bold cursor-pointer hover:underline ml-auto px-1"
                         onClick={() => onClickExtend(booking.id)}
                       >
                         Extend!

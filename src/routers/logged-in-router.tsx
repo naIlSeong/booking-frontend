@@ -9,6 +9,7 @@ import { Home } from "../pages/home";
 import { MyProfile } from "../pages/my-profile";
 import { EditProfile } from "../pages/edit-profile";
 import { BookingDetail } from "../pages/booking-detail";
+import { EditBooking } from "../pages/edit-booking";
 
 export const LoggedInRouter = () => {
   return (
@@ -32,6 +33,9 @@ export const LoggedInRouter = () => {
         </Route>
         <Route key={6} path="/booking/:id">
           <BookingDetail />
+        </Route>
+        <Route key={7} path="/edit-booking/:id">
+          <EditBooking />
         </Route>
         <Route>
           <NotFound />
