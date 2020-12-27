@@ -21,6 +21,7 @@ import {
 } from "../__generated__/deleteBooking";
 import { FormError } from "../components/form-error";
 import { NotFound } from "./404";
+import { useMe } from "../hooks/useMe";
 
 const BOOKING_DETAIL = gql`
   query bookingDetail($input: BookingDetailInput!) {
@@ -82,6 +83,7 @@ export const BookingDetail = () => {
 
   const history = useHistory();
   const { id: bookingId } = useParams<IParams>();
+  const { data: myData, loading: myLoading } = useMe();
   const { data, loading } = useQuery<bookingDetail, bookingDetailVariables>(
     BOOKING_DETAIL,
     {
@@ -121,30 +123,66 @@ export const BookingDetail = () => {
           <div className="bookingList">
             <div className="flex items-center pb-8">
               <span className="title w-auto pb-0">Booking Info</span>
-              <span
-                className="text-coolGray-200 text-xl font-semibold px-7 py-1.5 ml-auto rounded-lg bg-coolGray-900 hover:bg-black transition-colors duration-500 cursor-pointer"
-                onClick={() => {
-                  history.push(
-                    `/edit-booking/${data?.bookingDetail.booking?.id}`
-                  );
-                }}
-              >
-                Edit
-              </span>
-              <span
-                className="text-coolGray-200 text-xl font-semibold px-4 py-1.5 ml-3 rounded-lg bg-red-700 hover:bg-red-900 transition-colors duration-500 cursor-pointer"
-                onClick={() => {
-                  if (!deleteBookingLoading && data?.bookingDetail.booking) {
-                    deleteBookingMutation({
-                      variables: {
-                        input: { bookingId: data.bookingDetail.booking.id },
-                      },
-                    });
-                  }
-                }}
-              >
-                {deleteBookingLoading ? "Loading" : "Delete"}
-              </span>
+              {!myLoading &&
+                myData &&
+                data?.bookingDetail.creator?.id === myData.me.id && (
+                  <>
+                    {data.bookingDetail.booking?.isFinished === false &&
+                    data.bookingDetail.booking.inUse === false ? (
+                      <>
+                        <span
+                          className="text-coolGray-200 text-xl font-semibold px-7 py-1.5 ml-auto rounded-lg bg-coolGray-900 hover:bg-black transition-colors duration-500 cursor-pointer"
+                          onClick={() => {
+                            history.push(
+                              `/edit-booking/${data?.bookingDetail.booking?.id}`
+                            );
+                          }}
+                        >
+                          Edit
+                        </span>
+                        <span
+                          className="text-coolGray-200 text-xl font-semibold px-4 py-1.5 ml-3 rounded-lg bg-red-700 hover:bg-red-900 transition-colors duration-500 cursor-pointer"
+                          onClick={() => {
+                            if (
+                              !deleteBookingLoading &&
+                              data?.bookingDetail.booking
+                            ) {
+                              deleteBookingMutation({
+                                variables: {
+                                  input: {
+                                    bookingId: data.bookingDetail.booking.id,
+                                  },
+                                },
+                              });
+                            }
+                          }}
+                        >
+                          {deleteBookingLoading ? "Loading" : "Delete"}
+                        </span>
+                      </>
+                    ) : (
+                      <span
+                        className="text-coolGray-200 text-xl font-semibold px-4 py-1.5 ml-auto rounded-lg bg-red-700 hover:bg-red-900 transition-colors duration-500 cursor-pointer"
+                        onClick={() => {
+                          if (
+                            !deleteBookingLoading &&
+                            data?.bookingDetail.booking
+                          ) {
+                            deleteBookingMutation({
+                              variables: {
+                                input: {
+                                  bookingId: data.bookingDetail.booking.id,
+                                },
+                              },
+                            });
+                          }
+                        }}
+                      >
+                        {deleteBookingLoading ? "Loading" : "Delete"}
+                      </span>
+                    )}
+                  </>
+                )}
             </div>
             {data?.bookingDetail.booking && data.bookingDetail.creator && (
               <div className="text-coolGray-200 font-medium grid gap-2 my-4 text-xl">
