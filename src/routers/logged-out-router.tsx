@@ -5,6 +5,8 @@ import {
   Route,
   Switch,
 } from "react-router-dom";
+import { Footer } from "../components/footer";
+import { Header } from "../components/header";
 import { NotFound } from "../pages/404";
 import { Login } from "../pages/login";
 import { Signup } from "../pages/singup";
@@ -12,6 +14,7 @@ import { Signup } from "../pages/singup";
 export const LoggedOutRouter = () => {
   return (
     <Router>
+      <Header />
       <Switch>
         <Route path="/signup" exact>
           <Signup />
@@ -26,6 +29,7 @@ export const LoggedOutRouter = () => {
           <NotFound />
         </Route>
       </Switch>
+      <Footer />
     </Router>
   );
 };

@@ -18,7 +18,7 @@
 }
 
 .flexBox {
-  @apply flex flex-col justify-center items-center h-full mt-16 py-16;
+  @apply flex flex-col justify-center items-center min-h-screen h-full mt-16 py-16;
 }
 
 .errorMessage {
