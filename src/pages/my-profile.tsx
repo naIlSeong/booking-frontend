@@ -124,7 +124,9 @@ export const MyProfile = () => {
                       {booking.team?.id && (
                         <span
                           className="px-2 ml-3 rounded-lg bg-coolGray-700 cursor-pointer"
-                          onClick={() => history.push("/my-team")}
+                          onClick={() =>
+                            history.push(`/team/${booking.team?.id}`)
+                          }
                         >
                           With Team
                         </span>

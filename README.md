@@ -39,12 +39,14 @@
 
   - [ ] Search Team by team name
 
-- [ ] "/team/:id" &rarr; Team Detail
+- [x] "/team/:id" &rarr; Team Detail
 
-  - [ ] "/my-team"
-    - [ ] Register Member (Search user by username)
-    - [ ] Edit Team
-    - [ ] Delete Team
+  - [x] Delete Team
+
+- [ ] "/my-team"
+
+  - [ ] Register Member (Search user by username)
+  - [ ] Edit Team
 
 - Place
 - [ ] "/place/all" &rarr; Get All Available Place
