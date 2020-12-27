@@ -112,56 +112,59 @@ export const MyProfile = () => {
                   Loading...
                 </div>
               ) : queryOutput?.getFinishedBooking.bookings?.length !== 0 ? (
-                queryOutput?.getFinishedBooking.bookings?.map((booking) => (
-                  <div className="bookingArgs">
-                    <div className="bookingTime">
-                      <span
-                        className="hover:underline cursor-pointer"
-                        onClick={() => history.push(`/booking/${booking.id}`)}
-                      >
-                        {editTime(booking.startAt)} ~ {editTime(booking.endAt)}
-                      </span>
-                      {booking.team?.id && (
+                queryOutput?.getFinishedBooking.bookings?.map(
+                  (booking, index) => (
+                    <div className="bookingArgs" key={index}>
+                      <div className="bookingTime">
                         <span
-                          className="px-2 ml-3 rounded-lg bg-coolGray-700 cursor-pointer"
+                          className="hover:underline cursor-pointer"
+                          onClick={() => history.push(`/booking/${booking.id}`)}
+                        >
+                          {editTime(booking.startAt)} ~{" "}
+                          {editTime(booking.endAt)}
+                        </span>
+                        {booking.team?.id && (
+                          <span
+                            className="px-2 ml-3 rounded-lg bg-coolGray-700 cursor-pointer"
+                            onClick={() =>
+                              history.push(`/team/${booking.team?.id}`)
+                            }
+                          >
+                            With Team
+                          </span>
+                        )}
+                      </div>
+                      <div className="text-coolGray-400 pt-6 pb-2">
+                        <FontAwesomeIcon
+                          icon={faMapMarkerAlt}
+                          className="text-coolGray-200"
+                        />{" "}
+                        <span
+                          className="hover:underline cursor-pointer"
                           onClick={() =>
-                            history.push(`/team/${booking.team?.id}`)
+                            history.push(`/place/${booking.place.id}`)
                           }
                         >
-                          With Team
+                          {booking.place.placeName}
                         </span>
-                      )}
+                        <span className="font-semibold text-coolGray-200">
+                          {" "}
+                          ∙{" "}
+                        </span>
+                        <span
+                          className="hover:underline cursor-pointer"
+                          onClick={() =>
+                            history.push(
+                              `/location/${booking.place.placeLocation.id}`
+                            )
+                          }
+                        >
+                          {booking.place.placeLocation.locationName}
+                        </span>
+                      </div>
                     </div>
-                    <div className="text-coolGray-400 pt-6 pb-2">
-                      <FontAwesomeIcon
-                        icon={faMapMarkerAlt}
-                        className="text-coolGray-200"
-                      />{" "}
-                      <span
-                        className="hover:underline cursor-pointer"
-                        onClick={() =>
-                          history.push(`/place/${booking.place.id}`)
-                        }
-                      >
-                        {booking.place.placeName}
-                      </span>
-                      <span className="font-semibold text-coolGray-200">
-                        {" "}
-                        ∙{" "}
-                      </span>
-                      <span
-                        className="hover:underline cursor-pointer"
-                        onClick={() =>
-                          history.push(
-                            `/location/${booking.place.placeLocation.id}`
-                          )
-                        }
-                      >
-                        {booking.place.placeLocation.locationName}
-                      </span>
-                    </div>
-                  </div>
-                ))
+                  )
+                )
               ) : (
                 <div className="flex flex-col items-center my-4">
                   <span className="text-3xl text-coolGray-200 font-semibold tracking-wide mb-6">

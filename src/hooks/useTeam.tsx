@@ -1,4 +1,4 @@
-import { gql, useQuery } from "@apollo/client";
+import { gql, useLazyQuery, useQuery } from "@apollo/client";
 import { teamDetail, teamDetailVariables } from "../__generated__/teamDetail";
 
 const TEAM_DETAIL = gql`
@@ -21,6 +21,16 @@ const TEAM_DETAIL = gql`
 
 export const useTeam = (teamId: string) => {
   return useQuery<teamDetail, teamDetailVariables>(TEAM_DETAIL, {
+    variables: {
+      input: {
+        teamId: +teamId,
+      },
+    },
+  });
+};
+
+export const useLazyTeam = (teamId: string) => {
+  return useLazyQuery<teamDetail, teamDetailVariables>(TEAM_DETAIL, {
     variables: {
       input: {
         teamId: +teamId,

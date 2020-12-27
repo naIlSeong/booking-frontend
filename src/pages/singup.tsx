@@ -44,7 +44,7 @@ export const Signup = () => {
     }
   };
 
-  const [loginMutation, { data: createUserOutput, loading }] = useMutation<
+  const [createUserMutation, { data: createUserOutput, loading }] = useMutation<
     createUser,
     createUserVariables
   >(CREATE_USER, { onCompleted });
@@ -52,7 +52,7 @@ export const Signup = () => {
   const onSubmint = () => {
     if (!loading) {
       const { username, password, studentId } = getValues();
-      loginMutation({
+      createUserMutation({
         variables: {
           input: {
             username,
@@ -111,7 +111,7 @@ export const Signup = () => {
         <Button
           canClick={formState.isValid}
           loading={loading}
-          actionText="Login"
+          actionText="Sign Up"
         />
         {createUserOutput?.createUser.error && (
           <FormError errorMessage={createUserOutput.createUser.error} />

@@ -46,7 +46,7 @@
 - [ ] "/my-team"
 
   - [ ] Register Member (Search user by username)
-  - [ ] Edit Team
+  - [x] Edit Team
 
 - Place
 - [ ] "/place/all" &rarr; Get All Available Place

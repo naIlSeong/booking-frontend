@@ -1,4 +1,3 @@
-import { gql, useMutation } from "@apollo/client";
 import {
   faChess,
   faChessPawn,
@@ -10,21 +9,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import { useHistory, useParams } from "react-router-dom";
-import { FormError } from "../components/form-error";
 import { useMe } from "../hooks/useMe";
 import { useTeam } from "../hooks/useTeam";
-import { deleteTeam } from "../__generated__/deleteTeam";
 import { UserRole } from "../__generated__/globalTypes";
 import { NotFound } from "./404";
-
-const DELETE_TEAM = gql`
-  mutation deleteTeam {
-    deleteTeam {
-      ok
-      error
-    }
-  }
-`;
 
 interface IParams {
   id: string;
@@ -35,20 +23,6 @@ export const TeamDetail = () => {
   const { id: teamId } = useParams<IParams>();
   const { data: myData, loading: myLoading } = useMe();
   const { data, loading } = useTeam(teamId);
-  const [
-    deleteTeamMutation,
-    { data: deleteTeamOutput, loading: deleteTeamLoading },
-  ] = useMutation<deleteTeam>(DELETE_TEAM, {
-    onCompleted: (data: deleteTeam) => {
-      const {
-        deleteTeam: { ok },
-      } = data;
-      if (ok) {
-        history.push("/my-profile");
-        window.location.reload(false);
-      }
-    },
-  });
 
   return data?.teamDetail.ok === false && data.teamDetail.error ? (
     <NotFound />
@@ -68,34 +42,24 @@ export const TeamDetail = () => {
                 myData &&
                 data?.teamDetail.team &&
                 // eslint-disable-next-line array-callback-return
-                data.teamDetail.team.members.map((member) => {
+                data.teamDetail.team.members.map((member, index) => {
                   if (
                     member.role === UserRole.Representative &&
                     member.id === myData.me.id
                   ) {
                     return (
-                      <>
-                        <span
-                          className="text-coolGray-200 text-xl font-semibold px-7 py-1.5 ml-auto rounded-lg bg-coolGray-900 hover:bg-black transition-colors duration-500 cursor-pointer"
-                          onClick={() => {
-                            history.push(
-                              `/edit-team/${data?.teamDetail.team?.id}`
-                            );
-                          }}
-                        >
-                          Edit
-                        </span>
-                        <span
-                          className="text-coolGray-200 text-xl font-semibold px-4 py-1.5 ml-3 rounded-lg bg-red-700 hover:bg-red-900 transition-colors duration-500 cursor-pointer"
-                          onClick={() => {
-                            if (!deleteTeamLoading) {
-                              deleteTeamMutation();
-                            }
-                          }}
-                        >
-                          {deleteTeamLoading ? "Loading" : "Delete"}
-                        </span>
-                      </>
+                      <span
+                        className="text-coolGray-200 text-xl font-semibold px-7 py-1.5 ml-auto rounded-lg bg-coolGray-900 hover:bg-black transition-colors duration-500 cursor-pointer"
+                        onClick={() => {
+                          history.push({
+                            pathname: "/edit-team",
+                            state: { id: data.teamDetail.team?.id },
+                          });
+                        }}
+                        key={index}
+                      >
+                        Edit
+                      </span>
                     );
                   }
                 })}
@@ -113,10 +77,10 @@ export const TeamDetail = () => {
               </div>
               {data?.teamDetail.team?.members ? (
                 // eslint-disable-next-line array-callback-return
-                data.teamDetail.team.members.map((member) => {
+                data.teamDetail.team.members.map((member, index) => {
                   if (member.role === UserRole.Representative) {
                     return (
-                      <div className="py-1">
+                      <div className="py-1" key={index}>
                         <FontAwesomeIcon icon={faCrown} />{" "}
                         <span
                           className="hover:underline cursor-pointer"
@@ -128,7 +92,7 @@ export const TeamDetail = () => {
                     );
                   } else if (member.role === UserRole.Member) {
                     return (
-                      <div className="py-1">
+                      <div className="py-1" key={index}>
                         <FontAwesomeIcon icon={faChessPawn} />{" "}
                         <span
                           className="hover:underline cursor-pointer"
@@ -144,9 +108,6 @@ export const TeamDetail = () => {
                 <></>
               )}
             </div>
-            {deleteTeamOutput?.deleteTeam.error && (
-              <FormError errorMessage={deleteTeamOutput.deleteTeam.error} />
-            )}
           </div>
         )}
       </div>

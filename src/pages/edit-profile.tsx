@@ -149,7 +149,7 @@ export const EditProfile = () => {
             )}
             <Button
               canClick={formState.isValid}
-              loading={loading}
+              loading={editUserLoading}
               actionText="Update"
             />
           </>
