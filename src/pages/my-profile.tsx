@@ -5,6 +5,7 @@ import React from "react";
 import { Helmet } from "react-helmet-async";
 import { useHistory } from "react-router-dom";
 import { useMe } from "../hooks/useMe";
+import { editTime } from "../hooks/useTime";
 import { getFinishedBooking } from "../__generated__/getFinishedBooking";
 
 const GET_FINISHED_BOOKING = gql`
@@ -34,17 +35,6 @@ const GET_FINISHED_BOOKING = gql`
 `;
 
 export const MyProfile = () => {
-  const editTime = (rawDate: string) => {
-    const [rawYear, month, ect] = rawDate.split("-");
-    const year = rawYear.slice(0, 2);
-    const day = ect.slice(0, 2);
-    const [d, minute] = ect.split(":");
-    const h = d.slice(3, 5);
-    const hour = (parseInt(h) + 9).toString();
-
-    return `${year}/${month}/${day} ${hour}:${minute}`;
-  };
-
   const history = useHistory();
   const { data, loading } = useMe();
   const {

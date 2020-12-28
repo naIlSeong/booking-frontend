@@ -1,8 +1,6 @@
 import React from "react";
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 import { Link, useHistory } from "react-router-dom";
-import { getInProgressBooking } from "../__generated__/getInProgressBooking";
-import { getComingUpBooking } from "../__generated__/getComingUpBooking";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 import Countdown from "react-countdown";
@@ -16,60 +14,9 @@ import {
   finishInUse,
   finishInUseVariables,
 } from "../__generated__/finishInUse";
-
-const GET_IN_PROGRESS = gql`
-  query getInProgressBooking {
-    getInProgressBooking {
-      ok
-      error
-      bookings {
-        id
-        place {
-          id
-          placeName
-          placeLocation {
-            id
-            locationName
-          }
-        }
-        startAt
-        endAt
-        isFinished
-        inUse
-        canExtend
-        team {
-          id
-        }
-      }
-    }
-  }
-`;
-const GET_COMING_UP = gql`
-  query getComingUpBooking {
-    getComingUpBooking {
-      ok
-      error
-      bookings {
-        id
-        place {
-          id
-          placeName
-          placeLocation {
-            id
-            locationName
-          }
-        }
-        startAt
-        endAt
-        isFinished
-        inUse
-        team {
-          id
-        }
-      }
-    }
-  }
-`;
+import { useMyInProgressBooking } from "../hooks/useInProgressBooking";
+import { useMyComingUpBooking } from "../hooks/useComingUpBooking";
+import { editTime, renderer } from "../hooks/useTime";
 
 const EXTEND_IN_USE = gql`
   mutation extendInUse($input: ExtendInUseInput!) {
@@ -93,11 +40,9 @@ export const Home = () => {
   const {
     data: inProgress,
     loading: inProgressLoading,
-  } = useQuery<getInProgressBooking>(GET_IN_PROGRESS);
-  const {
-    data: comingUp,
-    loading: comingUpLoading,
-  } = useQuery<getComingUpBooking>(GET_COMING_UP);
+  } = useMyInProgressBooking();
+
+  const { data: comingUp, loading: comingUpLoading } = useMyComingUpBooking();
 
   const onCompleted = (data: extendInUse) => {
     const {
@@ -130,48 +75,6 @@ export const Home = () => {
   });
 
   const history = useHistory();
-
-  const editTime = (rawDate: string) => {
-    const [rawYear, month, ect] = rawDate.split("-");
-    const year = rawYear.slice(0, 2);
-    const day = ect.slice(0, 2);
-    const [d, minute] = ect.split(":");
-    const h = d.slice(3, 5);
-    const hour = (parseInt(h) + 9).toString();
-
-    return `${year}/${month}/${day} ${hour}:${minute}`;
-  };
-
-  interface IRenderer {
-    hours: number;
-    minutes: number;
-    seconds: number;
-    completed: boolean;
-  }
-
-  const renderer = ({ hours, minutes, seconds, completed }: IRenderer) => {
-    if (completed) {
-      return <span className="text-red-500 font-bold">Finished!</span>;
-    } else {
-      if (hours === 0 && minutes < 10) {
-        return (
-          <>
-            <span className="text-coolGray-300 font-normal mx-1">
-              {hours}h {minutes < 10 ? `0${minutes}` : minutes}m
-              {seconds < 10 ? `0${seconds}` : seconds}s
-            </span>{" "}
-            <span className="text-red-500 font-bold px-2">Can extend!</span>
-          </>
-        );
-      }
-      return (
-        <span className="text-coolGray-300 font-normal">
-          {hours}h {minutes < 10 ? `0${minutes}` : minutes}m{" "}
-          {seconds < 10 ? `0${seconds}` : seconds}s
-        </span>
-      );
-    }
-  };
 
   const onClickExtend = (bookingId: number) => {
     if (!loading) {
@@ -299,7 +202,7 @@ export const Home = () => {
                   to="/create-in-use"
                   className="text-coolGray-300 font-light hover:underline"
                 >
-                  Create InUse booking &rarr;
+                  Create inUse booking &rarr;
                 </Link>
               </div>
             )}

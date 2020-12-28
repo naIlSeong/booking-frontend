@@ -34,7 +34,7 @@
   - [x] Delete Booking
 
 - Team
-- [x] "/create-team" &rarr; Create Team 🔥🔥🔥
+- [x] "/create-team" &rarr; Create Team
 - [ ] "/team/all" &rarr; Get All Team 🔥
 
   - [ ] Search Team by team name 🔥
@@ -53,4 +53,5 @@
 
   - [ ] Search Place by place name 🔥
 
-- [ ] "/place/:id" &rarr; Place's booking (InUse & Coming Up Next) 🔥🔥
+- [x] "/place/:id" &rarr; Place's booking (InUse & Coming Up Next)
+- [ ] "/location/:id" &rarr; Location's Place

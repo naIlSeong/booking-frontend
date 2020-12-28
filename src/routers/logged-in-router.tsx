@@ -13,6 +13,7 @@ import { EditBooking } from "../pages/edit-booking";
 import { TeamDetail } from "../pages/team-detail";
 import { EditTeam } from "../pages/edit-team";
 import { CreateTeam } from "../pages/create-team";
+import { PlaceDetail } from "../pages/place-detail";
 
 export const LoggedInRouter = () => {
   return (
@@ -48,6 +49,9 @@ export const LoggedInRouter = () => {
         </Route>
         <Route key={10} path="/create-team" exact>
           <CreateTeam />
+        </Route>
+        <Route key={11} path="/place/:id" exact>
+          <PlaceDetail />
         </Route>
         <Route>
           <NotFound />

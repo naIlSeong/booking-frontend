@@ -1,5 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { useHistory, useParams } from "react-router-dom";
@@ -13,7 +13,6 @@ import {
   editBooking,
   editBookingVariables,
 } from "../__generated__/editBooking";
-import { NotFound } from "./404";
 
 const EDIT_BOOKING = gql`
   mutation editBooking($input: EditBookingInput!) {
