@@ -14,9 +14,11 @@ import {
   finishInUse,
   finishInUseVariables,
 } from "../__generated__/finishInUse";
-import { useMyInProgressBooking } from "../hooks/useInProgressBooking";
-import { useMyComingUpBooking } from "../hooks/useComingUpBooking";
 import { editTime, renderer } from "../hooks/useTime";
+import {
+  useMyComingUpBooking,
+  useMyInProgressBooking,
+} from "../hooks/useConditionalBooking";
 
 const EXTEND_IN_USE = gql`
   mutation extendInUse($input: ExtendInUseInput!) {
@@ -106,93 +108,86 @@ export const Home = () => {
                 <FormError errorMessage={extendInUseOutput.extendInUse.error} />
               </div>
             )}
-            {inProgress?.getInProgressBooking.bookings?.length !== 0 ? (
-              inProgress?.getInProgressBooking.bookings?.map(
-                (booking, index) => (
-                  <div className="bookingArgs" key={index}>
-                    <div className="bookingTime">
+            {inProgress?.getBooking.bookings?.length !== 0 ? (
+              inProgress?.getBooking.bookings?.map((booking, index) => (
+                <div className="bookingArgs" key={index}>
+                  <div className="bookingTime">
+                    <span
+                      className="hover:underline cursor-pointer"
+                      onClick={() => history.push(`/booking/${booking.id}`)}
+                    >
+                      {editTime(booking.startAt)} ~ {editTime(booking.endAt)}
+                    </span>
+                    {booking.team?.id && (
                       <span
-                        className="hover:underline cursor-pointer"
-                        onClick={() => history.push(`/booking/${booking.id}`)}
+                        className="px-2 ml-3 rounded-lg bg-coolGray-700 cursor-pointer"
+                        onClick={() =>
+                          history.push(`/team/${booking.team?.id}`)
+                        }
                       >
-                        {editTime(booking.startAt)} ~ {editTime(booking.endAt)}
+                        With Team
                       </span>
-                      {booking.team?.id && (
-                        <span
-                          className="px-2 ml-3 rounded-lg bg-coolGray-700 cursor-pointer"
-                          onClick={() =>
-                            history.push(`/team/${booking.team?.id}`)
-                          }
-                        >
-                          With Team
-                        </span>
-                      )}
-                      <span
-                        className="px-2 ml-auto rounded-lg bg-red-700 hover:bg-red-900 transition-colors duration-500 cursor-pointer"
-                        onClick={() => {
-                          if (!finishInUseLoading) {
-                            finishInUseMutation({
-                              variables: { input: { bookingId: booking.id } },
-                            });
-                          }
-                        }}
-                      >
-                        {finishInUseLoading ? "Loading" : "Finish"}
-                      </span>
-                    </div>
-                    {finishInUseOutput?.finishInUse.error && (
-                      <FormError
-                        errorMessage={finishInUseOutput.finishInUse.error}
-                      />
                     )}
-                    <div className="mb-4 w-auto flex items-center">
-                      <FontAwesomeIcon
-                        icon={faClock}
-                        className="text-coolGray-200"
-                      />{" "}
-                      <Countdown date={booking.endAt} renderer={renderer} />
-                      {booking.canExtend === true ? (
-                        <span
-                          className="text-red-600 font-bold cursor-pointer hover:underline ml-auto px-1"
-                          onClick={() => onClickExtend(booking.id)}
-                        >
-                          Extend!
-                        </span>
-                      ) : (
-                        <></>
-                      )}
-                    </div>
-                    <div className="text-coolGray-400 py-2">
-                      <FontAwesomeIcon
-                        icon={faMapMarkerAlt}
-                        className="text-coolGray-200"
-                      />{" "}
-                      <span
-                        className="hover:underline cursor-pointer"
-                        onClick={() =>
-                          history.push(`/place/${booking.place.id}`)
+                    <span
+                      className="px-2 ml-auto rounded-lg bg-red-700 hover:bg-red-900 transition-colors duration-500 cursor-pointer"
+                      onClick={() => {
+                        if (!finishInUseLoading) {
+                          finishInUseMutation({
+                            variables: { input: { bookingId: booking.id } },
+                          });
                         }
-                      >
-                        {booking.place.placeName}
-                      </span>
-                      <span className="font-semibold text-coolGray-200">
-                        {" "}
-                        ∙{" "}
-                      </span>
-                      <span
-                        className="hover:underline cursor-pointer"
-                        onClick={() =>
-                          history.push(
-                            `/location/${booking.place.placeLocation.id}`
-                          )
-                        }
-                      >
-                        {booking.place.placeLocation.locationName}
-                      </span>
-                    </div>
+                      }}
+                    >
+                      {finishInUseLoading ? "Loading" : "Finish"}
+                    </span>
                   </div>
-                )
-              )
+                  {finishInUseOutput?.finishInUse.error && (
+                    <FormError
+                      errorMessage={finishInUseOutput.finishInUse.error}
+                    />
+                  )}
+                  <div className="mb-4 w-auto flex items-center">
+                    <FontAwesomeIcon
+                      icon={faClock}
+                      className="text-coolGray-200"
+                    />{" "}
+                    <Countdown date={booking.endAt} renderer={renderer} />
+                    {booking.canExtend === true ? (
+                      <span
+                        className="text-red-600 font-bold cursor-pointer hover:underline ml-auto px-1"
+                        onClick={() => onClickExtend(booking.id)}
+                      >
+                        Extend!
+                      </span>
+                    ) : (
+                      <></>
+                    )}
+                  </div>
+                  <div className="text-coolGray-400 py-2">
+                    <FontAwesomeIcon
+                      icon={faMapMarkerAlt}
+                      className="text-coolGray-200"
+                    />{" "}
+                    <span
+                      className="hover:underline cursor-pointer"
+                      onClick={() => history.push(`/place/${booking.place.id}`)}
+                    >
+                      {booking.place.placeName}
+                    </span>
+                    <span className="font-semibold text-coolGray-200"> ∙ </span>
+                    <span
+                      className="hover:underline cursor-pointer"
+                      onClick={() =>
+                        history.push(
+                          `/location/${booking.place.placeLocation.id}`
+                        )
+                      }
+                    >
+                      {booking.place.placeLocation.locationName}
+                    </span>
+                  </div>
+                </div>
+              ))
             ) : (
               <div className="flex flex-col items-center mb-12 mt-4">
                 <span className="text-3xl text-coolGray-200 font-semibold tracking-wide mb-6">
@@ -209,8 +204,8 @@ export const Home = () => {
           </div>
           <div className="bookingList">
             <span className="title w-auto">Coming up next</span>
-            {comingUp?.getComingUpBooking.bookings?.length !== 0 ? (
-              comingUp?.getComingUpBooking.bookings?.map((booking, index) => (
+            {comingUp?.getBooking.bookings?.length !== 0 ? (
+              comingUp?.getBooking.bookings?.map((booking, index) => (
                 <div className="bookingArgs" key={index}>
                   <div className="bookingTime">
                     <span

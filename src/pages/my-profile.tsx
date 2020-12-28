@@ -1,46 +1,16 @@
-import { gql, useQuery } from "@apollo/client";
+import React from "react";
 import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
 import { Helmet } from "react-helmet-async";
 import { useHistory } from "react-router-dom";
+import { useMyFinishedBooking } from "../hooks/useConditionalBooking";
 import { useMe } from "../hooks/useMe";
 import { editTime } from "../hooks/useTime";
-import { getFinishedBooking } from "../__generated__/getFinishedBooking";
-
-const GET_FINISHED_BOOKING = gql`
-  query getFinishedBooking {
-    getFinishedBooking {
-      ok
-      error
-      bookings {
-        id
-        startAt
-        endAt
-        place {
-          id
-          placeName
-          placeLocation {
-            id
-            locationName
-          }
-        }
-        team {
-          id
-          teamName
-        }
-      }
-    }
-  }
-`;
 
 export const MyProfile = () => {
   const history = useHistory();
   const { data, loading } = useMe();
-  const {
-    data: queryOutput,
-    loading: queryLoading,
-  } = useQuery<getFinishedBooking>(GET_FINISHED_BOOKING);
+  const { data: queryOutput, loading: queryLoading } = useMyFinishedBooking();
 
   return (
     <div className="background flexBox">
@@ -101,60 +71,57 @@ export const MyProfile = () => {
                 <div className="text-white text-2xl font-semibold tracking-wider w-auto my-4 text-center">
                   Loading...
                 </div>
-              ) : queryOutput?.getFinishedBooking.bookings?.length !== 0 ? (
-                queryOutput?.getFinishedBooking.bookings?.map(
-                  (booking, index) => (
-                    <div className="bookingArgs" key={index}>
-                      <div className="bookingTime">
+              ) : queryOutput?.getBooking.bookings?.length !== 0 ? (
+                queryOutput?.getBooking.bookings?.map((booking, index) => (
+                  <div className="bookingArgs" key={index}>
+                    <div className="bookingTime">
+                      <span
+                        className="hover:underline cursor-pointer"
+                        onClick={() => history.push(`/booking/${booking.id}`)}
+                      >
+                        {editTime(booking.startAt)} ~ {editTime(booking.endAt)}
+                      </span>
+                      {booking.team?.id && (
                         <span
-                          className="hover:underline cursor-pointer"
-                          onClick={() => history.push(`/booking/${booking.id}`)}
-                        >
-                          {editTime(booking.startAt)} ~{" "}
-                          {editTime(booking.endAt)}
-                        </span>
-                        {booking.team?.id && (
-                          <span
-                            className="px-2 ml-3 rounded-lg bg-coolGray-700 cursor-pointer"
-                            onClick={() =>
-                              history.push(`/team/${booking.team?.id}`)
-                            }
-                          >
-                            With Team
-                          </span>
-                        )}
-                      </div>
-                      <div className="text-coolGray-400 pt-6 pb-2">
-                        <FontAwesomeIcon
-                          icon={faMapMarkerAlt}
-                          className="text-coolGray-200"
-                        />{" "}
-                        <span
-                          className="hover:underline cursor-pointer"
+                          className="px-2 ml-3 rounded-lg bg-coolGray-700 cursor-pointer"
                           onClick={() =>
-                            history.push(`/place/${booking.place.id}`)
+                            history.push(`/team/${booking.team?.id}`)
                           }
                         >
-                          {booking.place.placeName}
+                          With Team
                         </span>
-                        <span className="font-semibold text-coolGray-200">
-                          {" "}
-                          ∙{" "}
-                        </span>
-                        <span
-                          className="hover:underline cursor-pointer"
-                          onClick={() =>
-                            history.push(
-                              `/location/${booking.place.placeLocation.id}`
-                            )
-                          }
-                        >
-                          {booking.place.placeLocation.locationName}
-                        </span>
-                      </div>
+                      )}
                     </div>
-                  )
-                )
+                    <div className="text-coolGray-400 pt-6 pb-2">
+                      <FontAwesomeIcon
+                        icon={faMapMarkerAlt}
+                        className="text-coolGray-200"
+                      />{" "}
+                      <span
+                        className="hover:underline cursor-pointer"
+                        onClick={() =>
+                          history.push(`/place/${booking.place.id}`)
+                        }
+                      >
+                        {booking.place.placeName}
+                      </span>
+                      <span className="font-semibold text-coolGray-200">
+                        {" "}
+                        ∙{" "}
+                      </span>
+                      <span
+                        className="hover:underline cursor-pointer"
+                        onClick={() =>
+                          history.push(
+                            `/location/${booking.place.placeLocation.id}`
+                          )
+                        }
+                      >
+                        {booking.place.placeLocation.locationName}
+                      </span>
+                    </div>
+                  </div>
+                ))
               ) : (
                 <div className="flex flex-col items-center my-4">
                   <span className="text-3xl text-coolGray-200 font-semibold tracking-wide mb-6">

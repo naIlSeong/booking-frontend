@@ -10,8 +10,10 @@ import React from "react";
 import Countdown from "react-countdown";
 import { Helmet } from "react-helmet-async";
 import { Link, useHistory, useParams } from "react-router-dom";
-import { usePlaceComingUpBooking } from "../hooks/useComingUpBooking";
-import { usePlaceInProgressBooking } from "../hooks/useInProgressBooking";
+import {
+  usePlaceComingUpBooking,
+  usePlaceInProgressBooking,
+} from "../hooks/useConditionalBooking";
 import { editTime, placeRenderer } from "../hooks/useTime";
 import {
   placeDetail,
@@ -129,63 +131,60 @@ export const PlaceDetail = () => {
                 <span className="text-white text-2xl font-semibold tracking-wider pt-5 pb-8">
                   Loading...
                 </span>
-              ) : inProgress?.getInProgressBooking.bookings?.length !== 0 ? (
-                inProgress?.getInProgressBooking.bookings?.map(
-                  (booking, index) => (
-                    <div className="bookingArgs mb-0" key={index}>
-                      <div className="bookingTime">
+              ) : inProgress?.getBooking.bookings?.length !== 0 ? (
+                inProgress?.getBooking.bookings?.map((booking, index) => (
+                  <div className="bookingArgs mb-0" key={index}>
+                    <div className="bookingTime">
+                      <span
+                        className="hover:underline cursor-pointer"
+                        onClick={() => history.push(`/booking/${booking.id}`)}
+                      >
+                        {editTime(booking.startAt)} ~ {editTime(booking.endAt)}
+                      </span>
+                      {booking.team?.id && (
                         <span
-                          className="hover:underline cursor-pointer"
-                          onClick={() => history.push(`/booking/${booking.id}`)}
-                        >
-                          {editTime(booking.startAt)} ~{" "}
-                          {editTime(booking.endAt)}
-                        </span>
-                        {booking.team?.id && (
-                          <span
-                            className="px-2 ml-3 rounded-lg bg-coolGray-700 cursor-pointer"
-                            onClick={() =>
-                              history.push(`/team/${booking.team?.id}`)
-                            }
-                          >
-                            With Team
-                          </span>
-                        )}
-                      </div>
-                      <div className="mb-4 w-auto flex items-center">
-                        <FontAwesomeIcon
-                          icon={faClock}
-                          className="text-coolGray-200"
-                        />{" "}
-                        <Countdown
-                          date={booking.endAt}
-                          renderer={placeRenderer}
-                        />
-                      </div>
-                      <div className="text-coolGray-400 py-2">
-                        <FontAwesomeIcon
-                          icon={faMapMarkerAlt}
-                          className="text-coolGray-200"
-                        />{" "}
-                        <span>{booking.place.placeName}</span>
-                        <span className="font-semibold text-coolGray-200">
-                          {" "}
-                          ∙{" "}
-                        </span>
-                        <span
-                          className="hover:underline cursor-pointer"
+                          className="px-2 ml-3 rounded-lg bg-coolGray-700 cursor-pointer"
                           onClick={() =>
-                            history.push(
-                              `/location/${booking.place.placeLocation.id}`
-                            )
+                            history.push(`/team/${booking.team?.id}`)
                           }
                         >
-                          {booking.place.placeLocation.locationName}
+                          With Team
                         </span>
-                      </div>
+                      )}
                     </div>
-                  )
-                )
+                    <div className="mb-4 w-auto flex items-center">
+                      <FontAwesomeIcon
+                        icon={faClock}
+                        className="text-coolGray-200"
+                      />{" "}
+                      <Countdown
+                        date={booking.endAt}
+                        renderer={placeRenderer}
+                      />
+                    </div>
+                    <div className="text-coolGray-400 py-2">
+                      <FontAwesomeIcon
+                        icon={faMapMarkerAlt}
+                        className="text-coolGray-200"
+                      />{" "}
+                      <span>{booking.place.placeName}</span>
+                      <span className="font-semibold text-coolGray-200">
+                        {" "}
+                        ∙{" "}
+                      </span>
+                      <span
+                        className="hover:underline cursor-pointer"
+                        onClick={() =>
+                          history.push(
+                            `/location/${booking.place.placeLocation.id}`
+                          )
+                        }
+                      >
+                        {booking.place.placeLocation.locationName}
+                      </span>
+                    </div>
+                  </div>
+                ))
               ) : (
                 <>
                   <span className="text-3xl text-coolGray-200 font-semibold tracking-wide mb-6">
@@ -193,7 +192,7 @@ export const PlaceDetail = () => {
                   </span>
                   {data.placeDetail.place?.isAvailable === true ? (
                     <Link
-                      to="/create-booking"
+                      to="/create-in-use"
                       className="text-coolGray-300 font-light hover:underline"
                     >
                       Create inUse booking &rarr;
@@ -208,8 +207,8 @@ export const PlaceDetail = () => {
             <div className="flex flex-col items-center mb-12 mt-4">
               {comingUpLoading ? (
                 <span>Loading...</span>
-              ) : comingUp?.getComingUpBooking.bookings?.length !== 0 ? (
-                comingUp?.getComingUpBooking.bookings?.map((booking, index) => (
+              ) : comingUp?.getBooking.bookings?.length !== 0 ? (
+                comingUp?.getBooking.bookings?.map((booking, index) => (
                   <div className="bookingArgs" key={index}>
                     <div className="bookingTime">
                       <span
