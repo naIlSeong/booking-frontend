@@ -52,15 +52,26 @@ export const Signup = () => {
   const onSubmint = () => {
     if (!loading) {
       const { username, password, studentId } = getValues();
-      createUserMutation({
-        variables: {
-          input: {
-            username,
-            password,
-            studentId,
+      if (!studentId) {
+        createUserMutation({
+          variables: {
+            input: {
+              username,
+              password,
+            },
           },
-        },
-      });
+        });
+      } else {
+        createUserMutation({
+          variables: {
+            input: {
+              username,
+              password,
+              studentId,
+            },
+          },
+        });
+      }
     }
   };
 
