@@ -16,6 +16,7 @@ import { CreateTeam } from "../pages/create-team";
 import { PlaceDetail } from "../pages/place-detail";
 import { Teams } from "../pages/teams";
 import { SearchTeam } from "../pages/search-team";
+import { Places } from "../pages/places";
 
 export const LoggedInRouter = () => {
   return (
@@ -60,6 +61,9 @@ export const LoggedInRouter = () => {
         </Route>
         <Route key={13} path="/search-team" exact>
           <SearchTeam />
+        </Route>
+        <Route key={14} path="/places" exact>
+          <Places />
         </Route>
         <Route>
           <NotFound />

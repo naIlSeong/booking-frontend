@@ -38,7 +38,7 @@ export const Teams = () => {
   const { getValues, register, handleSubmit } = useForm<IForm>();
 
   return (
-    <div className="background flexbox">
+    <div className="background flexBox">
       <Helmet>
         <title>Booking - Teams</title>
       </Helmet>

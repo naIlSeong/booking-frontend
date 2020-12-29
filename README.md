@@ -51,7 +51,7 @@
   - [x] Edit Team
 
 - Place
-- [ ] "/place/all" &rarr; Get All Available Place 🔥
+- [x] "/places" &rarr; Get All Available Place
 
   - [ ] Search Place by place name 🔥
 
@@ -59,3 +59,6 @@
 - [ ] "/location/:id" &rarr; Location's Place
 
 - [ ] Logout!!
+
+- Register Member?? Join Team??
+  - Request Join &rarr; Register user as a member
