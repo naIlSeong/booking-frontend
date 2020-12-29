@@ -1,33 +1,16 @@
 import React from "react";
-import { gql, useLazyQuery, useQuery } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { Helmet } from "react-helmet-async";
 import { getTeams } from "../__generated__/getTeams";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserFriends } from "@fortawesome/free-solid-svg-icons";
 import { Link, useHistory } from "react-router-dom";
 import { useMe } from "../hooks/useMe";
-import { searchTeam, searchTeamVariables } from "../__generated__/searchTeam";
 import { useForm } from "react-hook-form";
 
 const GET_TEAM = gql`
   query getTeams {
     getTeams {
-      ok
-      error
-      teams {
-        id
-        teamName
-        members {
-          id
-        }
-      }
-    }
-  }
-`;
-
-const SERCH_TEAM = gql`
-  query searchTeam($input: SearchTeamInput!) {
-    searchTeam(input: $input) {
       ok
       error
       teams {
@@ -51,16 +34,6 @@ export const Teams = () => {
   const { data: getTeamsOutput, loading: getTeamsLoading } = useQuery<getTeams>(
     GET_TEAM
   );
-  const [
-    searchTeamQuery,
-    { data: searchOutput, loading: searchLoading },
-  ] = useLazyQuery<searchTeam, searchTeamVariables>(SERCH_TEAM, {
-    variables: {
-      input: {
-        query: "user",
-      },
-    },
-  });
 
   const { getValues, register, handleSubmit } = useForm<IForm>();
 
@@ -105,6 +78,7 @@ export const Teams = () => {
                   ref={register()}
                   placeholder="Search Team..."
                   className="input bg-coolGray-900 border-none w-full rounded-md text-coolGray-200"
+                  autoFocus
                 />
               </form>
             </div>
