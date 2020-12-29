@@ -117,6 +117,7 @@ export const EditTeam = () => {
               className="input"
               placeholder="Team Name"
               defaultValue={data?.teamDetail.team?.teamName}
+              autoFocus
             />
             <Button
               canClick={formState.isValid}

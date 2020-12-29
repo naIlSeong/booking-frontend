@@ -88,6 +88,7 @@ export const Signup = () => {
           type="text"
           className="input"
           placeholder="Username"
+          autoFocus
         />
         {errors.username?.message && (
           <FormError errorMessage={errors.username.message} />

@@ -121,6 +121,7 @@ export const EditProfile = () => {
               className="input"
               placeholder="Username  *optional"
               defaultValue={data?.me.username}
+              autoFocus
             />
             <input
               ref={register({ required: false, minLength: 8 })}

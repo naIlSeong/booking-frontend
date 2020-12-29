@@ -76,6 +76,7 @@ export const CreateTeam = () => {
           type="text"
           className="input"
           placeholder="Team Name"
+          autoFocus
         />
         <Button
           canClick={formState.isValid}
