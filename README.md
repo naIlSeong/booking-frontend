@@ -27,6 +27,8 @@
 
   - [x] Delete User
 
+- [ ] "/user/:id" &rarr; User Profile
+
 - Booking
 - [x] "/booking/:id" &rarr; Booking Detail
 
@@ -55,3 +57,5 @@
 
 - [x] "/place/:id" &rarr; Place's booking (InUse & Coming Up Next)
 - [ ] "/location/:id" &rarr; Location's Place
+
+- [ ] Logout!!

@@ -53,6 +53,7 @@ export const EditProfile = () => {
     } = data;
     if (ok) {
       history.push("/my-profile");
+      window.location.reload(false);
     }
   };
 

@@ -81,7 +81,7 @@ export const BookingDetail = () => {
               <span className="title w-auto pb-0">Booking Info</span>
               {!myLoading &&
                 myData &&
-                data?.bookingDetail.creator?.id === myData.me.id && (
+                data?.bookingDetail.booking?.creator.id === myData.me.id && (
                   <>
                     {data.bookingDetail.booking?.isFinished === false &&
                     data.bookingDetail.booking.inUse === false ? (
@@ -140,7 +140,7 @@ export const BookingDetail = () => {
                   </>
                 )}
             </div>
-            {data?.bookingDetail.booking && data.bookingDetail.creator && (
+            {data?.bookingDetail.booking && data.bookingDetail.booking.creator && (
               <div className="text-coolGray-200 font-medium grid gap-2 my-4 text-xl">
                 <div className="py-1">
                   <FontAwesomeIcon icon={faHourglassStart} /> Start Time :{" "}
@@ -184,10 +184,12 @@ export const BookingDetail = () => {
                   <span
                     className="cursor-pointer hover:underline"
                     onClick={() =>
-                      history.push(`/user/${data.bookingDetail.creator?.id}`)
+                      history.push(
+                        `/user/${data.bookingDetail.booking?.creator.id}`
+                      )
                     }
                   >
-                    {data.bookingDetail.creator.username}
+                    {data.bookingDetail.booking.creator.username}
                   </span>
                 </div>
                 <div className="py-1">

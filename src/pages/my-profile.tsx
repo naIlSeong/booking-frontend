@@ -65,7 +65,7 @@ export const MyProfile = () => {
         )}
         <div className="bookingList">
           <div className="flex flex-col justify-between pb-8">
-            <span className="title w-max">Finsished Booking</span>
+            <span className="title w-max">Finished Booking</span>
             <div>
               {queryLoading ? (
                 <div className="text-white text-2xl font-semibold tracking-wider w-auto my-4 text-center">

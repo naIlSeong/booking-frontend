@@ -9,11 +9,6 @@ const BOOKING_DETAIL = gql`
     bookingDetail(input: $input) {
       ok
       error
-      creator {
-        id
-        username
-        role
-      }
       booking {
         id
         place {
@@ -27,6 +22,11 @@ const BOOKING_DETAIL = gql`
         team {
           id
           teamName
+        }
+        creator {
+          id
+          username
+          role
         }
         startAt
         endAt
