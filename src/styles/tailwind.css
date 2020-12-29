@@ -45,4 +45,8 @@
   @apply text-white text-2xl font-semibold tracking-wider h-screen pt-32;
 }
 
+.searchList {
+  @apply text-coolGray-200 font-medium grid gap-2 my-4 text-xl bg-coolGray-900 rounded-sm p-3;
+}
+
 @tailwind utilities;

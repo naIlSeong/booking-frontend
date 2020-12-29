@@ -37,7 +37,7 @@
 
 - Team
 - [x] "/create-team" &rarr; Create Team
-- [ ] "/team/all" &rarr; Get All Team 🔥
+- [x] "/teams" &rarr; Get All Team 🔥
 
   - [ ] Search Team by team name 🔥
 

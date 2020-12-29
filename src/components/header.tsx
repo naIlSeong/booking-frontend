@@ -30,12 +30,12 @@ export const Header: React.FC = () => {
                   Create Booking
                 </span>
               </Link>
-              <Link to="/team">
+              <Link to="/teams">
                 <span className="title text-xl font-medium tracking-wider pb-0">
                   Teams
                 </span>
               </Link>
-              <Link to="/place">
+              <Link to="/places">
                 <span className="title text-xl font-medium tracking-wider pb-0">
                   Places
                 </span>
