@@ -51,9 +51,17 @@ export const EditProfile = () => {
     const {
       editUser: { ok },
     } = data;
+    const { password } = getValues();
     if (ok) {
-      history.push("/my-profile");
-      window.location.reload(false);
+      if (password) {
+        localStorage.removeItem(LOCAL_STORAGE_TOKEN);
+        authToken(null);
+        history.push("/logout");
+        window.location.reload(false);
+      } else {
+        history.push("/my-profile");
+        window.location.reload(false);
+      }
     }
   };
 

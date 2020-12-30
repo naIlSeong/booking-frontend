@@ -58,7 +58,7 @@
 - [x] "/place/:id" &rarr; Place's booking (InUse & Coming Up Next)
       ~~"/location/:id" &rarr; Location's Place~~
 
-- [ ] Logout!!
+- [x] Logout!!
 
 - Register Member?? Join Team??
   - Request Join &rarr; Register user as a member
