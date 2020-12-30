@@ -14,6 +14,7 @@ import { FormError } from "../components/form-error";
 import { useMe } from "../hooks/useMe";
 import { useTeam } from "../hooks/useTeam";
 import { UserRole } from "../__generated__/globalTypes";
+import { leaveTeam } from "../__generated__/leaveTeam";
 import {
   registerMember,
   registerMemberVariables,
@@ -23,6 +24,15 @@ import { NotFound } from "./404";
 const REGISTER_MEMBER = gql`
   mutation registerMember($input: RegisterMemberInput!) {
     registerMember(input: $input) {
+      ok
+      error
+    }
+  }
+`;
+
+const LEAVE_TEAM = gql`
+  mutation leaveTeam {
+    leaveTeam {
       ok
       error
     }
@@ -53,6 +63,20 @@ export const TeamDetail = () => {
     },
   });
 
+  const [
+    leaveTeamMutation,
+    { data: leaveTeamOutput, loading: leaveTeamLoading },
+  ] = useMutation<leaveTeam>(LEAVE_TEAM, {
+    onCompleted: (data: leaveTeam) => {
+      const {
+        leaveTeam: { ok },
+      } = data;
+      if (ok) {
+        window.location.reload(false);
+      }
+    },
+  });
+
   const onClick = () => {
     if (data?.teamDetail.team?.id) {
       registerMemberMutation({
@@ -64,8 +88,6 @@ export const TeamDetail = () => {
       });
     }
   };
-  console.log(data?.teamDetail.team?.id === myData?.me.team?.id);
-  console.log(myData?.me.role === UserRole.Member);
 
   return data?.teamDetail.ok === false && data.teamDetail.error ? (
     <NotFound />
@@ -98,8 +120,13 @@ export const TeamDetail = () => {
                 myData.me.team?.id &&
                 myData.me.team.id === data.teamDetail.team.id && (
                   // ToDo : Exit Team Mutation
-                  <span className="text-coolGray-200 text-xl font-semibold px-7 py-1.5 ml-auto rounded-lg bg-red-700 hover:bg-red-800 transition-colors duration-500 cursor-pointer">
-                    Leave Team
+                  <span
+                    className="text-coolGray-200 text-xl font-semibold px-7 py-1.5 ml-auto rounded-lg bg-red-700 hover:bg-red-800 transition-colors duration-500 cursor-pointer"
+                    onClick={() => {
+                      leaveTeamMutation({});
+                    }}
+                  >
+                    {leaveTeamLoading ? "Loading..." : "Leave Team"}
                   </span>
                 )}
               {!myLoading &&
@@ -132,6 +159,9 @@ export const TeamDetail = () => {
               <FormError
                 errorMessage={registerMemberOutput.registerMember.error}
               />
+            )}
+            {leaveTeamOutput?.leaveTeam.error && (
+              <FormError errorMessage={leaveTeamOutput.leaveTeam.error} />
             )}
             <div className="text-coolGray-200 font-medium grid gap-2 my-4 text-xl">
               <div className="py-1 text-4xl text-coolGray-300">

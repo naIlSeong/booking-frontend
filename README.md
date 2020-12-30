@@ -45,7 +45,7 @@
 
   - [x] Delete Team
   - [x] Join Team
-  - [ ] Leave Team
+  - [x] Leave Team
 
 - [x] "/my-team"
 
@@ -60,6 +60,3 @@
       ~~"/location/:id" &rarr; Location's Place~~
 
 - [x] Logout!!
-
-- Register Member?? Join Team??
-  - Request Join &rarr; Register user as a member
