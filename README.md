@@ -44,11 +44,11 @@
 - [x] "/team/:id" &rarr; Team Detail
 
   - [x] Delete Team
-  - [ ] Request Join
+  - [x] Join Team
+  - [ ] Leave Team
 
-- [ ] "/my-team"
+- [x] "/my-team"
 
-  - [ ] Register Member (Search user by username)
   - [x] Edit Team
 
 - Place

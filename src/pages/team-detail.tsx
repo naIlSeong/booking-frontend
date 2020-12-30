@@ -1,3 +1,4 @@
+import { gql, useMutation } from "@apollo/client";
 import {
   faChess,
   faChessPawn,
@@ -9,10 +10,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import { useHistory, useParams } from "react-router-dom";
+import { FormError } from "../components/form-error";
 import { useMe } from "../hooks/useMe";
 import { useTeam } from "../hooks/useTeam";
 import { UserRole } from "../__generated__/globalTypes";
+import {
+  registerMember,
+  registerMemberVariables,
+} from "../__generated__/registerMember";
 import { NotFound } from "./404";
+
+const REGISTER_MEMBER = gql`
+  mutation registerMember($input: RegisterMemberInput!) {
+    registerMember(input: $input) {
+      ok
+      error
+    }
+  }
+`;
 
 interface IParams {
   id: string;
@@ -23,6 +38,34 @@ export const TeamDetail = () => {
   const { id: teamId } = useParams<IParams>();
   const { data: myData, loading: myLoading } = useMe();
   const { data, loading } = useTeam(teamId);
+
+  const [
+    registerMemberMutation,
+    { data: registerMemberOutput, loading: registerMemberLoading },
+  ] = useMutation<registerMember, registerMemberVariables>(REGISTER_MEMBER, {
+    onCompleted: (data: registerMember) => {
+      const {
+        registerMember: { ok },
+      } = data;
+      if (ok) {
+        window.location.reload(false);
+      }
+    },
+  });
+
+  const onClick = () => {
+    if (data?.teamDetail.team?.id) {
+      registerMemberMutation({
+        variables: {
+          input: {
+            teamId: data.teamDetail.team.id,
+          },
+        },
+      });
+    }
+  };
+  console.log(data?.teamDetail.team?.id === myData?.me.team?.id);
+  console.log(myData?.me.role === UserRole.Member);
 
   return data?.teamDetail.ok === false && data.teamDetail.error ? (
     <NotFound />
@@ -38,6 +81,27 @@ export const TeamDetail = () => {
           <div className="bookingList">
             <div className="flex items-center pb-8">
               <span className="title w-auto pb-0">Team Info</span>
+              {myData &&
+                myData.me.role === UserRole.Individual &&
+                !myData.me.team && (
+                  <span
+                    className="text-coolGray-200 text-xl font-semibold px-7 py-1.5 ml-auto rounded-lg bg-coolGray-900 hover:bg-black transition-colors duration-500 cursor-pointer"
+                    onClick={onClick}
+                  >
+                    {registerMemberLoading ? "Loading..." : "Join Team"}
+                  </span>
+                )}
+              {myData &&
+                data &&
+                myData.me.role === UserRole.Member &&
+                data.teamDetail.team?.id &&
+                myData.me.team?.id &&
+                myData.me.team.id === data.teamDetail.team.id && (
+                  // ToDo : Exit Team Mutation
+                  <span className="text-coolGray-200 text-xl font-semibold px-7 py-1.5 ml-auto rounded-lg bg-red-700 hover:bg-red-800 transition-colors duration-500 cursor-pointer">
+                    Leave Team
+                  </span>
+                )}
               {!myLoading &&
                 myData &&
                 data?.teamDetail.team &&
@@ -64,6 +128,11 @@ export const TeamDetail = () => {
                   }
                 })}
             </div>
+            {registerMemberOutput?.registerMember.error && (
+              <FormError
+                errorMessage={registerMemberOutput.registerMember.error}
+              />
+            )}
             <div className="text-coolGray-200 font-medium grid gap-2 my-4 text-xl">
               <div className="py-1 text-4xl text-coolGray-300">
                 <FontAwesomeIcon icon={faIdBadge} /> <span>Team Name</span>
