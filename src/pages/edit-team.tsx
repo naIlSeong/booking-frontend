@@ -127,21 +127,12 @@ export const EditTeam = () => {
             {editTeamOutput?.editTeam.error && (
               <FormError errorMessage={editTeamOutput.editTeam.error} />
             )}
-            <button
-              className="text-white font-semibold py-3 mb-5 mt-2 focus:outline-none bg-indigo-600 hover:bg-indigo-800 transition-colors duration-500"
-              onClick={() =>
-                history.push({ pathname: "/register-member", state: { id } })
-              }
-              type="button"
-            >
-              Register Member
-            </button>
           </>
         )}
       </form>
       <form className="grid gap-4 w-5/12">
         <button
-          className="text-white font-semibold py-3 mt-12 focus:outline-none bg-red-700 hover:bg-red-900 transition-colors duration-500"
+          className="text-white font-semibold py-3 mt-20 focus:outline-none bg-red-700 hover:bg-red-900 transition-colors duration-500"
           onClick={() => {
             if (!deleteTeamLoading) {
               deleteTeamMutation({});
