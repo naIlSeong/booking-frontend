@@ -74,11 +74,8 @@ export const Places = () => {
             {data?.getLocation.locations &&
               data.getLocation.locations.map((location, index) => (
                 <div className="searchList px-0 bg-coolGray-800" key={index}>
-                  <Link to={`/location/${location.id}`}>
-                    <div className="text-4xl hover:underline">
-                      {location.locationName}
-                    </div>
-                  </Link>
+                  <div className="text-4xl">{location.locationName}</div>
+
                   {location.places?.map((place, index) => (
                     <div
                       className="cursor-pointer searchList mb-0"

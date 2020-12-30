@@ -109,16 +109,7 @@ export const MyProfile = () => {
                         {" "}
                         ∙{" "}
                       </span>
-                      <span
-                        className="hover:underline cursor-pointer"
-                        onClick={() =>
-                          history.push(
-                            `/location/${booking.place.placeLocation.id}`
-                          )
-                        }
-                      >
-                        {booking.place.placeLocation.locationName}
-                      </span>
+                      <span>{booking.place.placeLocation.locationName}</span>
                     </div>
                   </div>
                 ))

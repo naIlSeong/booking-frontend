@@ -106,11 +106,7 @@ export const SearchPlace = () => {
                 </Link>
                 <div className="mt-8 ml-1">
                   <FontAwesomeIcon icon={faMapMarkerAlt} />{" "}
-                  <Link to={`/location/${place.placeLocation.id}`}>
-                    <span className="hover:underline">
-                      {place.placeLocation.locationName}
-                    </span>
-                  </Link>
+                  <span>{place.placeLocation.locationName}</span>
                 </div>
                 <div>
                   {place.isAvailable ? (

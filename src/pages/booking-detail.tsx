@@ -152,14 +152,7 @@ export const BookingDetail = () => {
                 </div>
                 <div className="py-1">
                   <FontAwesomeIcon icon={faMapMarkedAlt} /> Location :{" "}
-                  <span
-                    className="cursor-pointer hover:underline"
-                    onClick={() =>
-                      history.push(
-                        `/location/${data.bookingDetail.booking?.place.placeLocation.id}`
-                      )
-                    }
-                  >
+                  <span>
                     {
                       data.bookingDetail.booking.place.placeLocation
                         .locationName

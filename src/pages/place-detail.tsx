@@ -76,9 +76,7 @@ export const PlaceDetail = () => {
     id
   );
 
-  return !data ? (
-    <NotFound />
-  ) : (
+  return (
     <div className="background flexBox">
       <Helmet>
         <title>Booking - Place Detail</title>
@@ -86,11 +84,29 @@ export const PlaceDetail = () => {
       <div className="flex flex-col justify-center items-center w-full min-h-full">
         {loading ? (
           <span className="loading">Loading...</span>
+        ) : data?.placeDetail.ok === false ? (
+          <>
+            <Helmet>
+              <title>Booking - Not Found</title>
+            </Helmet>
+            <h1 className="text-9xl text-coolGray-200 font-bold tracking-wide">
+              404
+            </h1>
+            <h4 className="text-3xl text-coolGray-200 font-semibold pb-6 tracking-wide">
+              Not Found :(
+            </h4>
+            <h6 className="py-2 text-coolGray-300">
+              Sorry, but the page you are looking for is not found.{" "}
+            </h6>
+            <Link to="/" className="text-coolGray-400 hover:underline">
+              Home &rarr;
+            </Link>
+          </>
         ) : (
           <div className="bookingList">
             <div className="flex justify-between items-center pb-4">
               <span className="title w-max pb-0">
-                {data.placeDetail.place?.placeName}
+                {data?.placeDetail.place?.placeName}
               </span>
             </div>
             <div className="text-coolGray-200 font-semibold pt-6 pb-2">
@@ -98,19 +114,10 @@ export const PlaceDetail = () => {
                 icon={faMapMarkerAlt}
                 className="text-coolGray-200"
               />{" "}
-              <span
-                className="hover:underline cursor-pointer"
-                onClick={() =>
-                  history.push(
-                    `/location/${data.placeDetail.place?.placeLocation.id}`
-                  )
-                }
-              >
-                {data.placeDetail.place?.placeLocation.locationName}
-              </span>
+              <span>{data?.placeDetail.place?.placeLocation.locationName}</span>
             </div>
             <div className="text-coolGray-200 font-semibold py-2">
-              {data.placeDetail.place?.isAvailable === true ? (
+              {data?.placeDetail.place?.isAvailable === true ? (
                 <>
                   <FontAwesomeIcon
                     icon={faThumbsUp}
@@ -172,16 +179,7 @@ export const PlaceDetail = () => {
                         {" "}
                         ∙{" "}
                       </span>
-                      <span
-                        className="hover:underline cursor-pointer"
-                        onClick={() =>
-                          history.push(
-                            `/location/${booking.place.placeLocation.id}`
-                          )
-                        }
-                      >
-                        {booking.place.placeLocation.locationName}
-                      </span>
+                      <span>{booking.place.placeLocation.locationName}</span>
                     </div>
                   </div>
                 ))
@@ -190,7 +188,7 @@ export const PlaceDetail = () => {
                   <span className="text-3xl text-coolGray-200 font-semibold tracking-wide mb-6">
                     There is no Booking :(
                   </span>
-                  {data.placeDetail.place?.isAvailable === true ? (
+                  {data?.placeDetail.place?.isAvailable === true ? (
                     <Link
                       to="/create-in-use"
                       className="text-coolGray-300 font-light hover:underline"
@@ -238,16 +236,7 @@ export const PlaceDetail = () => {
                         {" "}
                         ∙{" "}
                       </span>
-                      <span
-                        className="hover:underline cursor-pointer"
-                        onClick={() =>
-                          history.push(
-                            `/location/${booking.place.placeLocation.id}`
-                          )
-                        }
-                      >
-                        {booking.place.placeLocation.locationName}
-                      </span>
+                      <span>{booking.place.placeLocation.locationName}</span>
                     </div>
                   </div>
                 ))
@@ -256,7 +245,7 @@ export const PlaceDetail = () => {
                   <span className="text-3xl text-coolGray-200 font-semibold tracking-wide mb-6">
                     There is no Booking :(
                   </span>
-                  {data.placeDetail.place?.isAvailable === true ? (
+                  {data?.placeDetail.place?.isAvailable === true ? (
                     <Link
                       to="/create-booking"
                       className="text-coolGray-300 font-light hover:underline"
