@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { useMe } from "../hooks/useMe";
 import { searchTeam, searchTeamVariables } from "../__generated__/searchTeam";
 
@@ -36,7 +36,7 @@ export const SearchTeam = () => {
   ] = useLazyQuery<searchTeam, searchTeamVariables>(SERCH_TEAM, {
     variables: {
       input: {
-        query: "user",
+        query,
       },
     },
   });
@@ -53,7 +53,6 @@ export const SearchTeam = () => {
       },
     });
   }, [history]);
-  console.log(searchOutput);
 
   const { getValues, register, handleSubmit } = useForm();
 
@@ -82,6 +81,28 @@ export const SearchTeam = () => {
                 </span>
               )}
             </div>
+            <div className="py-4">
+              <form
+                onSubmit={handleSubmit(() => {
+                  const { query } = getValues();
+                  history.push({
+                    pathname: "/search-place",
+                    search: `?term=${query}`,
+                  });
+                  window.location.reload(false);
+                })}
+              >
+                <input
+                  type="search"
+                  name="query"
+                  ref={register()}
+                  placeholder="Search Place..."
+                  className="input bg-coolGray-900 border-none w-full rounded-md text-coolGray-200"
+                  autoFocus
+                />
+              </form>
+            </div>
+
             {searchOutput?.searchTeam.teams?.map((team, index) => (
               <div className="searchList" key={index}>
                 <div

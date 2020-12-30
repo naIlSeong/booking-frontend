@@ -53,7 +53,7 @@
 - Place
 - [x] "/places" &rarr; Get All Available Place
 
-  - [ ] Search Place by place name 🔥
+  - [x] Search Place by place name
 
 - [x] "/place/:id" &rarr; Place's booking (InUse & Coming Up Next)
 - [ ] "/location/:id" &rarr; Location's Place

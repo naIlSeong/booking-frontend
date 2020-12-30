@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { getLocation } from "../__generated__/getLocation";
 
 const GET_LOCATION = gql`
@@ -74,7 +74,11 @@ export const Places = () => {
             {data?.getLocation.locations &&
               data.getLocation.locations.map((location, index) => (
                 <div className="searchList px-0 bg-coolGray-800" key={index}>
-                  <div className="text-4xl">{location.locationName}</div>
+                  <Link to={`/location/${location.id}`}>
+                    <div className="text-4xl hover:underline">
+                      {location.locationName}
+                    </div>
+                  </Link>
                   {location.places?.map((place, index) => (
                     <div
                       className="cursor-pointer searchList mb-0"
