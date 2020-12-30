@@ -27,7 +27,7 @@
 
   - [x] Delete User
 
-- [ ] "/user/:id" &rarr; User Profile
+- [x] "/user/:id" &rarr; User Profile
 
 - Booking
 - [x] "/booking/:id" &rarr; Booking Detail
@@ -44,6 +44,7 @@
 - [x] "/team/:id" &rarr; Team Detail
 
   - [x] Delete Team
+  - [ ] Request Join
 
 - [ ] "/my-team"
 
