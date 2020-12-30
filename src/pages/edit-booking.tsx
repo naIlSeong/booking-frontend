@@ -32,6 +32,7 @@ interface IForm {
   place: string;
   startAt: string;
   endAt: string;
+  withTeam: boolean | string;
 }
 
 export const EditBooking = () => {
@@ -95,22 +96,36 @@ export const EditBooking = () => {
   });
 
   const onSubmit = () => {
-    const { place, startAt, endAt } = getValues();
+    const { place, startAt, endAt, withTeam } = getValues();
     if (bookingData?.bookingDetail.booking) {
-      editBOokingMutation({
-        variables: {
-          input: {
-            placeId: +place,
-            startAt,
-            endAt,
-            bookingId: bookingData.bookingDetail.booking.id,
+      if (withTeam === "withTeam") {
+        editBOokingMutation({
+          variables: {
+            input: {
+              placeId: +place,
+              startAt,
+              endAt,
+              bookingId: bookingData.bookingDetail.booking.id,
+              withTeam: true,
+            },
           },
-        },
-      });
+        });
+      }
+      if (!withTeam) {
+        editBOokingMutation({
+          variables: {
+            input: {
+              placeId: +place,
+              startAt,
+              endAt,
+              bookingId: bookingData.bookingDetail.booking.id,
+              withTeam: false,
+            },
+          },
+        });
+      }
     }
   };
-  console.log(bookingData?.bookingDetail.booking?.startAt);
-  console.log(bookingData?.bookingDetail.booking?.endAt);
 
   return (
     <div className="background flexBox h-screen">
@@ -169,7 +184,7 @@ export const EditBooking = () => {
                 <select
                   id="location-select"
                   name="location"
-                  className="w-10/12"
+                  className="w-full mr-4"
                   ref={register({})}
                 >
                   <option value="">=======Select Location=======</option>
@@ -213,7 +228,7 @@ export const EditBooking = () => {
                     <select
                       id="place-select"
                       name="place"
-                      className="w-10/12"
+                      className="w-full mr-4"
                       ref={register({})}
                     >
                       {getAvailablePlaceOutput?.getAvailablePlace.places ? (
@@ -235,14 +250,23 @@ export const EditBooking = () => {
                     </select>
                     <OtherButton
                       canClick={formState.isDirty}
-                      actionText="Create!"
+                      actionText="Update!"
                       type="submit"
                     />
                   </div>
                 </div>
               )}
             </form>
-
+            <div className="flex w-full justify-end items-center text-xl text-coolGray-200 font-medium">
+              <input
+                ref={register()}
+                type="checkbox"
+                value="withTeam"
+                className="mx-2"
+                name="withTeam"
+              />
+              <label>With Team?</label>
+            </div>
             {editBookingLoading && (
               <div className="flex w-full justify-center items-center text-xl text-coolGray-200 font-medium py-5">
                 Loading...

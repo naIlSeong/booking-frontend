@@ -149,7 +149,7 @@ export const CreateBooking = () => {
                 <select
                   id="location-select"
                   name="location"
-                  className="w-10/12"
+                  className="w-full mr-4"
                   ref={register({})}
                 >
                   <option value="">=======Select Location=======</option>
@@ -193,7 +193,7 @@ export const CreateBooking = () => {
                     <select
                       id="place-select"
                       name="place"
-                      className="w-10/12"
+                      className="w-full mr-4"
                       ref={register({})}
                     >
                       {getAvailablePlaceOutput?.getAvailablePlace.places ? (
