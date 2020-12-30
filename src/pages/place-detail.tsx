@@ -19,7 +19,6 @@ import {
   placeDetail,
   placeDetailVariables,
 } from "../__generated__/placeDetail";
-import { NotFound } from "./404";
 
 const PLACE_DETAIL = gql`
   query placeDetail($input: PlaceDetailInput!) {
