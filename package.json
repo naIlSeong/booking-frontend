@@ -35,12 +35,14 @@
   "scripts": {
     "tailwind:probuild": "NODE_ENV=production npm run tailwind:build",
     "tailwind:build": "tailwind build ./src/styles/tailwind.css -o ./src/styles/styles.css",
-    "start": "npm run apollo:codegen & npm run tailwind:build & react-scripts start",
+    "start": "npm run tailwind:build & react-scripts start",
     "apollo:codegen": "rm -rf src/__generated__ && apollo client:codegen src/__generated__ --target=typescript --outputFlat",
     "prebuild": "npm run tailwind:probuild",
     "build": "CI=false react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -62,6 +64,8 @@
   },
   "devDependencies": {
     "@types/react-helmet": "^6.1.0",
-    "@types/react-router-dom": "^5.1.6"
-  }
+    "@types/react-router-dom": "^5.1.6",
+    "gh-pages": "^3.1.0"
+  },
+  "homepage": "https://naIlSeong.github.io/booking-frontend/"
 }
