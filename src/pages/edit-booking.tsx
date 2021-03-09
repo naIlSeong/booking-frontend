@@ -8,7 +8,6 @@ import { FormError } from "../components/form-error";
 import { useAvailablePlace } from "../hooks/useAvailablePlace";
 import { useBooking } from "../hooks/useBooking";
 import { useLocation } from "../hooks/useLocation";
-import { useMe } from "../hooks/useMe";
 import {
   editBooking,
   editBookingVariables,
@@ -38,28 +37,7 @@ interface IForm {
 export const EditBooking = () => {
   const history = useHistory();
   const { id: bookingId } = useParams<IParams>();
-  const { data: myData, loading: myLoading } = useMe();
   const { data: bookingData, loading: bookingLoading } = useBooking(bookingId);
-
-  //   const [isInvalid, setIsInvalid] = useState(false);
-
-  //   useEffect(() => {
-  //     if (!myLoading && !bookingLoading) {
-  //       if (myData?.me.id !== bookingData?.bookingDetail.creator?.id) {
-  //         setIsInvalid(true);
-  //       }
-  //       if (bookingData?.bookingDetail.booking?.isFinished === true) {
-  //         setIsInvalid(true);
-  //       }
-  //       if (bookingData?.bookingDetail.booking?.inUse === true) {
-  //         setIsInvalid(true);
-  //       }
-  //     }
-  //   }, [myData, bookingData, myLoading, bookingLoading]);
-
-  //   if (isInvalid === true) {
-  //     return <NotFound />;
-  //   }
 
   const {
     register,
